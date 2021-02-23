@@ -11,8 +11,8 @@
 </head>
 <body>
   <header class="navbar">
-    <i class="fas fa-undo-alt nav-icon"></i>
-    <i class="fas fa-heart nav-icon"></i>
+    <i class="fas fa-undo-alt nav-icon back"></i>
+    <i class="fas fa-heart nav-icon heart"></i>
   </header>
 
   <main>
@@ -26,18 +26,19 @@
       <button class="search-button">Search</button>
     </div>
 
-      <div class="astronomy-data">
-        <p class="row text-large">Location: Irvine, CA</p>
-        <p class="row text-large">Current time: 12;16</p>
-        <p class="row text-large">Sunrise: 06:27</p>
-        <p class="row text-large">Sunset: 17:42</p>
+      <div class="astronomy-data hidden">
+        <p class="text-large">Location: Irvine, CA</p>
+        <p class="text-large">Current time: 12;16</p>
+        <p class="text-large">Sunrise: 06:27</p>
+        <p class="text-large">Sunset: 17:42</p>
       </div>
 
       <p class="row text-large">Viewpoints</p>
-      <div class="row result">
+      <div class="venue-card">
+        <i class="far fa-heart like heart"></i>
         <p class="venue-info">Great Park Balloon Ride
           Sand Canyon &amp; Marine Way (at Orange County Great Park)</p>
-          <img src="placeholder-image-square.jpg">
+          <img class ="row" src="images/placeholder-image-square.jpg">
       </div>
   </main>
 
