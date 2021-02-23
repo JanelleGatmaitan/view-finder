@@ -1,12 +1,19 @@
-main {
-}
-/*
-.search-bar {
+.row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
 .search-button {
-  text-align: right;
-  margin-top: 10px;
-} */
+  position: relative;
+}
+
+img {
+  width:  200px;
+  height: 200px;
+  background-size: cover;
+}
+
+.venue-info {
+  text-align: left;
+}
