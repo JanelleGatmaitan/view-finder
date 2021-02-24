@@ -75,4 +75,9 @@ img {
   height: 31rem;
   margin-bottom: 30px
 }
+
+.text-large {
+  font-size: 5rem;
+}
+
 }
