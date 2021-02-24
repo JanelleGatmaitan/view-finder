@@ -20,6 +20,10 @@ function getAstronomyData() {
   xhr.addEventListener('load', function () {
     console.log(xhr.status);
     console.log('Astronomy data: ', xhr.response);
+    data.astroData.currentTime = xhr.response.current_time;
+    data.astroData.sunriseTime = xhr.response.sunrise;
+    data.astroData.sunsetTime = xhr.response.sunset;
+    console.log('xhr.response.current_time', xhr.response.current_time);
   });
   xhr.send();
 }
@@ -55,9 +59,9 @@ $searchButton.addEventListener('click', function (event) {
   data.display = 'search';
   getAstronomyLocationParam();
   console.log('astroLocationParam: ', astronomyLocationParam);
-  // getAstronomyData();
-  getPlacesData();
-// getPlacesPhoto();
+  getAstronomyData();
+  // getPlacesData();
+  // getPlacesPhoto();
 });
 
 $back.addEventListener('click', function (event) {

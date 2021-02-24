@@ -2,7 +2,7 @@
 var data = {
   display: null,
   userInput: {},
-  astroResults: {},
+  astroData: {},
   placesSearchResults: [],
   favorites: []
 }
