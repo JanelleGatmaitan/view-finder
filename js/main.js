@@ -94,10 +94,4 @@ function getPlacesData() {
 // //   xhr.send();
 // // }
 
-// getAstronomyData();
-// getPlacesData();
-// getPlacesPhoto();
-
 // var photoURL = prefix + '500x500' + suffix;
-
-// xhr.open('GET', 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=Irvine,%20US');
