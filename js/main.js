@@ -26,8 +26,15 @@ function getAstronomyData() {
   xhr.send();
 }
 
+function splitUserInput(userInput) {
+  var splitInput = userInput.unsplit.split(',');
+  data.userInput.city = splitInput[0];
+  data.userInput.state = splitInput[1];
+}
+
 $searchButton.addEventListener('click', function (event) {
-  data.userInput.city = $input.value;
+  data.userInput.unsplit = $input.value;
+  splitUserInput(data.userInput);
   console.log('data.userInput.city: ', data.userInput.city);
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
