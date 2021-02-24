@@ -54,3 +54,25 @@ img {
 .hidden {
   display: none;
 }
+
+@media screen and (min-width: 600px) {
+  img {
+  width:  380px;
+  height: 380px;
+  background-size: cover;
+  margin: 0 auto;
+}
+
+.astronomy-data,
+.venue-card {
+  text-align: center;
+  width: 30rem;
+  margin: 0 auto;
+  margin-top: 25px;
+}
+
+.venue-card {
+  height: 31rem;
+  margin-bottom: 30px
+}
+}

@@ -5,12 +5,12 @@ var $astronomyData = document.querySelector('.astronomy-data');
 var $recs = document.querySelector('.results');
 var $back = document.querySelector('.back');
 
-// if (data.display === 'search') {
-//   $searchBar.className = 'hidden';
-//   $astronomyData.className = 'astronomy-data';
-//   $recs.className = 'results';
-//   data.display = 'search';
-// }
+if (data.display === 'search') {
+  $searchBar.className = 'hidden';
+  $astronomyData.className = 'astronomy-data';
+  $recs.className = 'results';
+  data.display = 'search';
+}
 
 $searchButton.addEventListener('click', function (event) {
   console.log($input.value);
@@ -21,6 +21,7 @@ $searchButton.addEventListener('click', function (event) {
 });
 
 $back.addEventListener('click', function (event) {
+  $input.value = '';
   $searchBar.className = 'search';
   $astronomyData.className = 'hidden';
   $recs.className = 'hidden';
