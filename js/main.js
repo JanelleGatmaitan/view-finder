@@ -16,8 +16,7 @@ function getAstronomyData() {
   var xhr = new XMLHttpRequest();
   var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
   var userInput = data.userInput.city;
-  var end = ',%20US';
-  xhr.open('GET', astronomyEndpoint + userInput + end);
+  xhr.open('GET', astronomyEndpoint + userInput + astronomyLocationParam);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     console.log(xhr.status);
@@ -34,12 +33,16 @@ function splitUserInput(userInput) {
   userInput.state = splitInput[1];
 }
 
-var locationParam;
+var astronomyLocationParam = '';
 function getAstronomyLocationParam() {
-  for (var i = 0; i < data.userInput.city.length - 1; i++) {
-    locationParam += data.userInput.city[i] + '%20';
+  for (var i = 0; i < data.userInput.city.length; i++) {
+    if (i === data.userInput.city.length - 1) {
+      astronomyLocationParam += data.userInput.city[i] + '%20US';
+    } else {
+      astronomyLocationParam += data.userInput.city[i] + '%20';
+    }
   }
-  return locationParam;
+  return astronomyLocationParam;
 }
 
 $searchButton.addEventListener('click', function (event) {
@@ -51,7 +54,7 @@ $searchButton.addEventListener('click', function (event) {
   $recs.className = 'results';
   data.display = 'search';
   getAstronomyLocationParam();
-  console.log('locationParam: ', locationParam);
+  console.log('locationParam: ', astronomyLocationParam);
   // getAstronomyData();
 });
 
