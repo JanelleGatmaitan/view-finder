@@ -4,6 +4,7 @@ var $searchBar = document.querySelector('.search');
 var $astronomyData = document.querySelector('.astronomy-data');
 var $recs = document.querySelector('.results');
 var $back = document.querySelector('.back');
+var city;
 
 if (data.display === 'search') {
   $searchBar.className = 'hidden';
@@ -13,11 +14,25 @@ if (data.display === 'search') {
 }
 
 $searchButton.addEventListener('click', function (event) {
-  console.log($input.value);
+  data.city = $input.value;
+  console.log('data.city: ', data.city);
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
   data.display = 'search';
+
+  // function getAstronomyData() {
+  //   var xhr = new XMLHttpRequest();
+  //   var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
+  //   var requestUserInput =
+  //     xhr.open('GET', 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=Irvine,%20US');
+  //   xhr.responseType = 'json';
+  //   xhr.addEventListener('load', function () {
+  //     console.log(xhr.status);
+  //     console.log('Astronomy data: ', xhr.response);
+  //   });
+  //   xhr.send();
+  // }
 });
 
 $back.addEventListener('click', function (event) {
@@ -27,16 +42,6 @@ $back.addEventListener('click', function (event) {
   $recs.className = 'hidden';
   data.display = 'home';
 });
-// function getAstronomyData() {
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('GET', 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=Irvine,%20US');
-//   xhr.responseType = 'json';
-//   xhr.addEventListener('load', function () {
-//     console.log(xhr.status);
-//     console.log('Astronomy data: ', xhr.response);
-//   });
-//   xhr.send();
-// }
 
 // function getPlacesData() {
 //   var xhr = new XMLHttpRequest();

@@ -1,6 +1,7 @@
 /* exported data */
 var data = {
   display: null,
+  city: '',
   searchResults: [],
   favorites: []
 }
