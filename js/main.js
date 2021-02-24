@@ -2,23 +2,30 @@ var $searchButton = document.querySelector('.search-button');
 var $input = document.querySelector('input');
 var $searchBar = document.querySelector('.search');
 var $astronomyData = document.querySelector('.astronomy-data');
-var $places = document.querySelector('.results');
+var $recs = document.querySelector('.results');
+var $back = document.querySelector('.back');
 
-if (data.display === 'search') {
-  $searchBar.className = 'hidden';
-  $astronomyData.className = 'astronomy-data';
-  $places.className = 'results';
-  data.display = 'search';
-}
+// if (data.display === 'search') {
+//   $searchBar.className = 'hidden';
+//   $astronomyData.className = 'astronomy-data';
+//   $recs.className = 'results';
+//   data.display = 'search';
+// }
 
 $searchButton.addEventListener('click', function (event) {
   console.log($input.value);
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
-  $places.className = 'results';
+  $recs.className = 'results';
   data.display = 'search';
 });
 
+$back.addEventListener('click', function (event) {
+  $searchBar.className = 'search';
+  $astronomyData.className = 'hidden';
+  $recs.className = 'hidden';
+  data.display = 'home';
+});
 // function getAstronomyData() {
 //   var xhr = new XMLHttpRequest();
 //   xhr.open('GET', 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=Irvine,%20US');
