@@ -80,7 +80,7 @@ function getPlacesData() {
     console.log('Places Response: ', xhr.response);
     console.log('typeof xhr.response.response.groups[0].items: ', typeof xhr.response.response.groups[0].items, xhr.response.response.groups[0].items);
     for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
-      var place = xhr.response.response.groups.items[i].venue;
+      var place = xhr.response.response.groups[0].items[i].venue;
       data.placesSearchResults.push(place);
     }
   });
