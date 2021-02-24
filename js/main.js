@@ -34,6 +34,7 @@ function splitUserInput(userInput) {
 }
 
 var astronomyLocationParam = '';
+
 function getAstronomyLocationParam() {
   for (var i = 0; i < data.userInput.city.length; i++) {
     if (i === data.userInput.city.length - 1) {
@@ -55,7 +56,9 @@ $searchButton.addEventListener('click', function (event) {
   data.display = 'search';
   getAstronomyLocationParam();
   console.log('locationParam: ', astronomyLocationParam);
-  // getAstronomyData();
+  getAstronomyData();
+  getPlacesData();
+// getPlacesPhoto();
 });
 
 $back.addEventListener('click', function (event) {
@@ -66,16 +69,19 @@ $back.addEventListener('click', function (event) {
   data.display = 'home';
 });
 
-// function getPlacesData() {
-//   var xhr = new XMLHttpRequest();
-//   xhr.open('GET', 'https://api.foursquare.com/v2/venues/explore?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&near=Irvine,CA&query=scenic&limit=5');
-//   xhr.responseType = 'json';
-//   xhr.addEventListener('load', function () {
-//     console.log(xhr.status);
-//     console.log('Places Response: ', xhr.response);
-//   });
-//   xhr.send();
-// }
+function getPlacesData() {
+  var xhr = new XMLHttpRequest();
+  var placesEndpoint = 'https://api.foursquare.com/v2/venues/explore?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&near=';
+  var nearParam = data.userInput.unsplit;
+  var queryParam = '&query=scenic&limit=5';
+  xhr.open('GET', placesEndpoint + nearParam + queryParam);
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    console.log(xhr.status);
+    console.log('Places Response: ', xhr.response);
+  });
+  xhr.send();
+}
 
 // // function getPlacesPhoto() {
 // //   var xhr = new XMLHttpRequest();
