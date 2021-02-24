@@ -4,13 +4,26 @@ var $searchBar = document.querySelector('.search');
 var $astronomyData = document.querySelector('.astronomy-data');
 var $recs = document.querySelector('.results');
 var $back = document.querySelector('.back');
-var city;
 
 if (data.display === 'search') {
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
   data.display = 'search';
+}
+
+function getAstronomyData() {
+  var xhr = new XMLHttpRequest();
+  var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
+  var userInput = 'Irvine';
+  var end = ',%20US';
+  xhr.open('GET', astronomyEndpoint + userInput + end);
+  xhr.responseType = 'json';
+  xhr.addEventListener('load', function () {
+    console.log(xhr.status);
+    console.log('Astronomy data: ', xhr.response);
+  });
+  xhr.send();
 }
 
 $searchButton.addEventListener('click', function (event) {
@@ -20,19 +33,7 @@ $searchButton.addEventListener('click', function (event) {
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
   data.display = 'search';
-
-  // function getAstronomyData() {
-  //   var xhr = new XMLHttpRequest();
-  //   var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
-  //   var requestUserInput =
-  //     xhr.open('GET', 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=Irvine,%20US');
-  //   xhr.responseType = 'json';
-  //   xhr.addEventListener('load', function () {
-  //     console.log(xhr.status);
-  //     console.log('Astronomy data: ', xhr.response);
-  //   });
-  //   xhr.send();
-  // }
+  getAstronomyData();
 });
 
 $back.addEventListener('click', function (event) {
@@ -70,3 +71,5 @@ $back.addEventListener('click', function (event) {
 // getPlacesPhoto();
 
 // var photoURL = prefix + '500x500' + suffix;
+
+// xhr.open('GET', 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=Irvine,%20US');
