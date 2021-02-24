@@ -55,7 +55,7 @@ $searchButton.addEventListener('click', function (event) {
   data.display = 'search';
   getAstronomyLocationParam();
   console.log('astroLocationParam: ', astronomyLocationParam);
-  getAstronomyData();
+  // getAstronomyData();
   getPlacesData();
 // getPlacesPhoto();
 });
@@ -78,6 +78,11 @@ function getPlacesData() {
   xhr.addEventListener('load', function () {
     console.log(xhr.status);
     console.log('Places Response: ', xhr.response);
+    console.log('typeof xhr.response.response.groups[0].items: ', typeof xhr.response.response.groups[0].items, xhr.response.response.groups[0].items);
+    for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
+      var place = xhr.response.response.groups.items[i].venue;
+      data.placesSearchResults.push(place);
+    }
   });
   xhr.send();
 }
