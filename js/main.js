@@ -1,8 +1,22 @@
 var $searchButton = document.querySelector('.search-button');
 var $input = document.querySelector('input');
+var $searchBar = document.querySelector('.search');
+var $astronomyData = document.querySelector('.astronomy-data');
+var $places = document.querySelector('.results');
+
+if (data.display === 'search') {
+  $searchBar.className = 'hidden';
+  $astronomyData.className = 'astronomy-data';
+  $places.className = 'results';
+  data.display = 'search';
+}
 
 $searchButton.addEventListener('click', function (event) {
   console.log($input.value);
+  $searchBar.className = 'hidden';
+  $astronomyData.className = 'astronomy-data';
+  $places.className = 'results';
+  data.display = 'search';
 });
 
 // function getAstronomyData() {

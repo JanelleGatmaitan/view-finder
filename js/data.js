@@ -6,7 +6,7 @@ var data = {
 }
 ;
 
-var previousDataJSON = localStorage.getItem('create-an-entry');
+var previousDataJSON = localStorage.getItem('view-finder');
 if (previousDataJSON != null) {
   data = JSON.parse(previousDataJSON);
 }
