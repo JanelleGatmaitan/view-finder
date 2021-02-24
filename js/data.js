@@ -2,7 +2,8 @@
 var data = {
   display: null,
   userInput: {},
-  searchResults: [],
+  astroResults: {},
+  placesSearchResults: [],
   favorites: []
 }
 ;
