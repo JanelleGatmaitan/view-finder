@@ -15,7 +15,7 @@ if (data.display === 'search') {
 function getAstronomyData() {
   var xhr = new XMLHttpRequest();
   var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
-  var userInput = 'Irvine';
+  var userInput = data.userInput.city;
   var end = ',%20US';
   xhr.open('GET', astronomyEndpoint + userInput + end);
   xhr.responseType = 'json';
@@ -28,19 +28,31 @@ function getAstronomyData() {
 
 function splitUserInput(userInput) {
   var splitInput = userInput.unsplit.split(',');
-  data.userInput.city = splitInput[0];
-  data.userInput.state = splitInput[1];
+  var city = splitInput[0];
+  var citySpaces = city.split(' ');
+  userInput.city = citySpaces;
+  userInput.state = splitInput[1];
+}
+
+var locationParam;
+function getAstronomyLocationParam() {
+  for (var i = 0; i < data.userInput.city.length - 1; i++) {
+    locationParam += data.userInput.city[i] + '%20';
+  }
+  return locationParam;
 }
 
 $searchButton.addEventListener('click', function (event) {
   data.userInput.unsplit = $input.value;
   splitUserInput(data.userInput);
-  console.log('data.userInput.city: ', data.userInput.city);
+  console.log('data.userInput: ', data.userInput);
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
   data.display = 'search';
-  getAstronomyData();
+  getAstronomyLocationParam();
+  console.log('locationParam: ', locationParam);
+  // getAstronomyData();
 });
 
 $back.addEventListener('click', function (event) {
