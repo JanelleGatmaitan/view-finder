@@ -27,8 +27,8 @@ function getAstronomyData() {
 }
 
 $searchButton.addEventListener('click', function (event) {
-  data.city = $input.value;
-  console.log('data.city: ', data.city);
+  data.userInput.city = $input.value;
+  console.log('data.userInput.city: ', data.userInput.city);
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';

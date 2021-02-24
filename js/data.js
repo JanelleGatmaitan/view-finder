@@ -1,7 +1,7 @@
 /* exported data */
 var data = {
   display: null,
-  city: '',
+  userInput: {},
   searchResults: [],
   favorites: []
 }
