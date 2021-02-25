@@ -5,13 +5,12 @@ var $astronomyData = document.querySelector('.astronomy-data');
 var $recs = document.querySelector('.results');
 var $back = document.querySelector('.back');
 
-if (data.display === 'search') {
+if (favoritesData.display === 'search') {
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
-  data.display = 'search';
 }
-
+var astroData = {};
 function getAstronomyData() {
   var xhr = new XMLHttpRequest();
   var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
@@ -20,9 +19,9 @@ function getAstronomyData() {
   xhr.addEventListener('load', function () {
     console.log(xhr.status);
     console.log('Astronomy data: ', xhr.response);
-    data.astroData.currentTime = xhr.response.current_time;
-    data.astroData.sunriseTime = xhr.response.sunrise;
-    data.astroData.sunsetTime = xhr.response.sunset;
+    astroData.currentTime = xhr.response.current_time;
+    astroData.sunriseTime = xhr.response.sunrise;
+    astroData.sunsetTime = xhr.response.sunset;
     console.log('xhr.response.current_time', xhr.response.current_time);
   });
   xhr.send();
@@ -40,28 +39,29 @@ var astronomyLocationParam = '';
 
 function getAstronomyLocationParam() {
   astronomyLocationParam = '';
-  for (var i = 0; i < data.userInput.city.length; i++) {
-    if (i === data.userInput.city.length - 1) {
-      astronomyLocationParam += data.userInput.city[i] + '%20US';
+  for (var i = 0; i < searchData.userInput.city.length; i++) {
+    if (i === searchData.userInput.city.length - 1) {
+      astronomyLocationParam += searchData.userInput.city[i] + '%20US';
     } else {
-      astronomyLocationParam += data.userInput.city[i] + '%20';
+      astronomyLocationParam += searchData.userInput.city[i] + '%20';
     }
   }
   return astronomyLocationParam;
 }
 
 $searchButton.addEventListener('click', function (event) {
-  data.userInput.unsplit = $input.value;
-  splitUserInput(data.userInput);
+  event.preventDefault();
+  searchData.userInput.unsplit = $input.value;
+  splitUserInput(searchData.userInput);
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
-  data.display = 'search';
+  favoritesData.display = 'search';
   getAstronomyLocationParam();
   console.log('astroLocationParam: ', astronomyLocationParam);
   // getAstronomyData();
   getPlacesData();
-  getPlacesPhotoData();
+  // getPlacesPhotoData();
 });
 
 $back.addEventListener('click', function (event) {
@@ -69,13 +69,14 @@ $back.addEventListener('click', function (event) {
   $searchBar.className = 'search';
   $astronomyData.className = 'hidden';
   $recs.className = 'hidden';
-  data.display = 'home';
+  favoritesData.display = 'home';
 });
 
+var searchPlaceResults = [];
 function getPlacesData() {
   var xhr = new XMLHttpRequest();
   var placesEndpoint = 'https://api.foursquare.com/v2/venues/explore?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&near=';
-  var nearParam = data.userInput.unsplit;
+  var nearParam = searchData.userInput.unsplit;
   var queryParam = '&query=scenic&limit=5';
   xhr.open('GET', placesEndpoint + nearParam + queryParam);
   xhr.responseType = 'json';
@@ -84,7 +85,7 @@ function getPlacesData() {
     console.log('Places Response: ', xhr.response);
     for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
       var place = xhr.response.response.groups[0].items[i].venue;
-      data.placesSearchResults.push(place);
+      searchPlaceResults.push(place);
     }
   });
   xhr.send();
@@ -92,8 +93,8 @@ function getPlacesData() {
 
 // var photoURL = prefix + '500x500' + suffix;
 var placeIDs = [];
-for (var j = 0; j < data.placesSearchResults.length; j++) {
-  placeIDs.push(data.placesSearchResults[j].id);
+for (var j = 0; j < searchPlaceResults.length; j++) {
+  placeIDs.push(searchPlaceResults[j].id);
 }
 
 // function getPhotoURLs() {
@@ -104,11 +105,11 @@ function getPlacesPhotoData() {
   var xhr = new XMLHttpRequest();
   var photoEndpoint = 'https://api.foursquare.com/v2/venues/';
   var clientID = '/photos?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&group=venue&limit=1';
-  for (var j = 0; j < data.placesSearchResults.length; j++) {
-    xhr.open('GET', photoEndpoint + data.placesSearchResults[j].id + clientID);
+  for (var j = 0; j < searchPlaceResults.length; j++) {
+    xhr.open('GET', photoEndpoint + searchPlaceResults[j].id + clientID);
     xhr.responseType = 'json';
     console.log('PlacesPhoto Response: ', xhr.response);
-    data.photoData.push(xhr.response);
+    searchData.photoData.push(xhr.response);
   }
   xhr.addEventListener('load', function () {
     console.log(xhr.status);

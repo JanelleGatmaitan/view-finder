@@ -1,20 +1,30 @@
 /* exported data */
-var data = {
-  display: null,
+var searchData = {
   userInput: {},
   astroData: {},
   photoData: [],
-  placesSearchResults: [],
-  favorites: []
+  placesSearchResults: []
 }
 ;
 
-var previousDataJSON = localStorage.getItem('view-finder');
-if (previousDataJSON != null) {
-  data = JSON.parse(previousDataJSON);
+var favoritesData = {
+  display: null,
+  favorites: []
+};
+
+var previousSearchDataJSON = localStorage.getItem('search-results');
+if (previousSearchDataJSON != null) {
+  searchData = JSON.parse(previousSearchDataJSON);
+}
+
+var previousFavoritesDataJSON = localStorage.getItem('favorites');
+if (previousFavoritesDataJSON != null) {
+  favoritesData = JSON.parse(previousFavoritesDataJSON);
 }
 
 window.addEventListener('beforeunload', function (event) {
-  var dataJSON = JSON.stringify(data);
-  localStorage.setItem('view-finder', dataJSON);
+  var searchDataJSON = JSON.stringify(searchData);
+  localStorage.setItem('search-results', searchDataJSON);
+  var favoritesDataJSON = JSON.stringify(favoritesData);
+  localStorage.setItem('favorites', favoritesDataJSON);
 });
