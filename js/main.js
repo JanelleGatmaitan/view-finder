@@ -24,6 +24,9 @@ function getAstronomyData() {
     searchData.astroData.currentTime = xhr.response.current_time;
     searchData.astroData.sunriseTime = xhr.response.sunrise;
     searchData.astroData.sunsetTime = xhr.response.sunset;
+    $currentTime.textContent = searchData.astroData.currentTime;
+    $rise.textContent = searchData.astroData.sunriseTime;
+    $set.textContent = searchData.astroData.sunsetTime;
   });
   xhr.send();
 }
@@ -50,12 +53,7 @@ function getAstronomyLocationParam() {
   return astronomyLocationParam;
 }
 
-function resetSearchData() {
-
-}
-
 $searchButton.addEventListener('click', function (event) {
-  event.preventDefault();
   favoritesData.display = 'search';
   searchData.userInput.unsplit = $input.value;
   splitUserInput(searchData.userInput);
@@ -65,10 +63,8 @@ $searchButton.addEventListener('click', function (event) {
   getAstronomyLocationParam();
   getAstronomyData();
   getPlacesData();
+  console.log(searchData);
   $city.textContent = searchData.userInput.unsplit;
-  $currentTime.textContent = searchData.astroData.currentTime;
-  $rise.textContent = searchData.astroData.sunriseTime;
-  $set.textContent = searchData.astroData.sunsetTime;
 });
 
 $back.addEventListener('click', function (event) {
@@ -79,6 +75,8 @@ $back.addEventListener('click', function (event) {
     placesSearchResults: []
   }
   ;
+  var searchDataJSON = JSON.stringify(searchData);
+  localStorage.setItem('search-results', searchDataJSON);
   $input.value = '';
   favoritesData.display = 'home';
   $searchBar.className = 'search';
@@ -98,7 +96,7 @@ function getPlacesData() {
       var place = xhr.response.response.groups[0].items[i].venue;
       searchData.placesSearchResults.push(place);
     }
-    // storePhotoData();
+    storePhotoData();
   });
   xhr.send();
 }
