@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,55 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/c72083e208.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
-  <header>
+  <header class="navbar">
+    <i class="fas fa-undo-alt nav-icon back"></i>
+    <i class="fas fa-heart nav-icon heart"></i>
   </header>
+
   <main>
+    <div class="search">
+      <p class="text-large">View Finder</p>
+      <div class="search-bar">
+        <input type="text" placeholder="City, State">
+        <div>
+          <button class="search-button">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="astronomy-data hidden">
+      <p>Location: Irvine, CA</p>
+      <p>Current time: 12:16</p>
+      <p>Sunrise: 06:27</p>
+      <p>Sunset: 17:42</p>
+    </div>
+
+
+    <div class="results hidden">
+      <p class="text-large">Viewpoints</p>
+      <div class="venue-card">
+        <i class="far fa-heart like heart"></i>
+        <p class="venue-info">Great Park Balloon Ride
+          Sand Canyon &amp; Marine Way (at Orange County Great Park)</p>
+        <img class="row" src="images/placeholder-image-square.jpg">
+      </div>
+      <div class="venue-card">
+        <i class="far fa-heart like heart"></i>
+        <p class="venue-info">Great Park Balloon Ride
+          Sand Canyon &amp; Marine Way (at Orange County Great Park)</p>
+        <img class="row" src="images/placeholder-image-square.jpg">
+      </div>
+    </div>
   </main>
+
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>

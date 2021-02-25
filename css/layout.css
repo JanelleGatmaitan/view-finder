@@ -1,0 +1,83 @@
+.search {
+  width: 20rem;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.search {
+  margin-top: 100px;
+}
+.search-bar {
+  margin-bottom: 15px;
+}
+
+.search-button {
+  float: right;
+  position: relative;
+  right: 10px
+}
+
+header {
+  height: 3rem;
+  width: 100%;
+}
+
+img {
+  width:  250px;
+  height: 250px;
+  background-size: cover;
+  margin: 0 auto;
+}
+
+.astronomy-data,
+.venue-card {
+  text-align: center;
+  width: 20rem;
+  margin: 0 auto;
+  margin-top: 25px;
+}
+
+.astronomy-data {
+  height: 15rem;
+  padding: 2.5rem 0;
+}
+
+.venue-card {
+  height: 25rem;
+  margin-bottom: 20px
+}
+
+.text-large {
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+@media screen and (min-width: 600px) {
+  img {
+  width:  380px;
+  height: 380px;
+  background-size: cover;
+  margin: 0 auto;
+}
+
+.astronomy-data,
+.venue-card {
+  text-align: center;
+  width: 30rem;
+  margin: 0 auto;
+  margin-top: 25px;
+}
+
+.venue-card {
+  height: 31rem;
+  margin-bottom: 30px
+}
+
+.text-large {
+  font-size: 5rem;
+}
+
+}
