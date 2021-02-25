@@ -10,7 +10,7 @@ if (favoritesData.display === 'search') {
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
 }
-var astroData = {};
+
 function getAstronomyData() {
   var xhr = new XMLHttpRequest();
   var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
@@ -19,9 +19,9 @@ function getAstronomyData() {
   xhr.addEventListener('load', function () {
     console.log(xhr.status);
     console.log('Astronomy data: ', xhr.response);
-    astroData.currentTime = xhr.response.current_time;
-    astroData.sunriseTime = xhr.response.sunrise;
-    astroData.sunsetTime = xhr.response.sunset;
+    searchData.astroData.currentTime = xhr.response.current_time;
+    searchData.astroData.sunriseTime = xhr.response.sunrise;
+    searchData.astroData.sunsetTime = xhr.response.sunset;
     console.log('xhr.response.current_time', xhr.response.current_time);
   });
   xhr.send();
@@ -72,7 +72,6 @@ $back.addEventListener('click', function (event) {
   favoritesData.display = 'home';
 });
 
-var searchPlaceResults = [];
 function getPlacesData() {
   var xhr = new XMLHttpRequest();
   var placesEndpoint = 'https://api.foursquare.com/v2/venues/explore?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&near=';
@@ -81,38 +80,34 @@ function getPlacesData() {
   xhr.open('GET', placesEndpoint + nearParam + queryParam);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    console.log(xhr.status);
     console.log('Places Response: ', xhr.response);
     for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
       var place = xhr.response.response.groups[0].items[i].venue;
-      searchPlaceResults.push(place);
+      searchData.placesSearchResults.push(place);
     }
+    storePhotoData();
   });
   xhr.send();
 }
 
-// var photoURL = prefix + '500x500' + suffix;
-var placeIDs = [];
-for (var j = 0; j < searchPlaceResults.length; j++) {
-  placeIDs.push(searchPlaceResults[j].id);
+function storePhotoData() {
+  for (var j = 0; j < searchData.placesSearchResults.length; j++) {
+    getPlacesPhotoData(searchData.placesSearchResults[j]);
+  }
+  console.log('searchData.photoData', searchData.photoData);
 }
+// var photoURL = prefix + '500x500' + suffix;
 
-// function getPhotoURLs() {
-
-// }
-
-function getPlacesPhotoData() {
+function getPlacesPhotoData(result) {
   var xhr = new XMLHttpRequest();
   var photoEndpoint = 'https://api.foursquare.com/v2/venues/';
   var clientID = '/photos?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&group=venue&limit=1';
-  for (var j = 0; j < searchPlaceResults.length; j++) {
-    xhr.open('GET', photoEndpoint + searchPlaceResults[j].id + clientID);
-    xhr.responseType = 'json';
-    console.log('PlacesPhoto Response: ', xhr.response);
-    searchData.photoData.push(xhr.response);
-  }
+  xhr.open('GET', photoEndpoint + result.id + clientID);
+  xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
     console.log(xhr.status);
+    console.log('PlacesPhoto Response: ', xhr.response);
+    searchData.photoData.push(xhr.response);
   });
   xhr.send();
 }
