@@ -59,9 +59,9 @@ $searchButton.addEventListener('click', function (event) {
   data.display = 'search';
   getAstronomyLocationParam();
   console.log('astroLocationParam: ', astronomyLocationParam);
-  getAstronomyData();
-  // getPlacesData();
-  // getPlacesPhoto();
+  // getAstronomyData();
+  getPlacesData();
+  getPlacesPhotos();
 });
 
 $back.addEventListener('click', function (event) {
@@ -91,15 +91,29 @@ function getPlacesData() {
   xhr.send();
 }
 
-// // function getPlacesPhoto() {
-// //   var xhr = new XMLHttpRequest();
-// //   xhr.open('GET', 'https://api.foursquare.com/v2/venues/4e40e8fdae60920b01735322/photos?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&group=venue&limit=1');
-// //   xhr.responseType = 'json';
-// //   xhr.addEventListener('load', function () {
-// //     console.log(xhr.status);
-// //     console.log('PlacesPhoto Response: ', xhr.response);
-// //   });
-// //   xhr.send();
-// // }
-
 // var photoURL = prefix + '500x500' + suffix;
+var placeIDs = [];
+for (var j = 0; j < data.placesSearchResults.length; j++) {
+  placeIDs.push(data.placesSearchResults[j].id);
+}
+
+function get
+// function getPlacesPhotos() {
+//   var xhr = new XMLHttpRequest();
+//   var photoEndpoint = 'https://api.foursquare.com/v2/venues/';
+//   // var foursquareID = '';
+//   var clientID = '/photos?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&group=venue&limit=1';
+//   for (var j = 0; j < data.placesSearchResults.length; j++) {
+//     xhr.open('GET', photoEndpoint + data.placesSearchResults[j].id + clientID);
+//     xhr.responseType = 'json';
+//   }
+//   // var foursquarePlaceID = data.placesSearchResults[j].id;
+//   // xhr.open('GET', photoEndpoint + foursquareID + clientID);
+//   // xhr.responseType = 'json';
+//   xhr.addEventListener('load', function () {
+//     console.log(xhr.status);
+//     console.log('PlacesPhoto Response: ', xhr.response);
+//   });
+//   xhr.send();
+// }
+// '4e40e8fdae60920b01735322'
