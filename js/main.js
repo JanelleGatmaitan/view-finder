@@ -13,6 +13,8 @@ if (favoritesData.display === 'search') {
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
+} else {
+  localStorage.removeItem('search-results', searchDataJSON);
 }
 
 function getAstronomyData() {
@@ -58,13 +60,13 @@ $searchButton.addEventListener('click', function (event) {
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
   favoritesData.display = 'search';
-  // getAstronomyLocationParam();
-  // getAstronomyData();
+  getAstronomyLocationParam();
+  getAstronomyData();
   getPlacesData();
-  $;
-  $currentTime.value = searchData.astroData.currentTime;
-  $;
-
+  $city.textContent = searchData.userInput.unsplit;
+  $currentTime.textContent = searchData.astroData.currentTime;
+  $rise.textContent = searchData.astroData.sunriseTime;
+  $set.textContent = searchData.astroData.sunsetTime;
 });
 
 $back.addEventListener('click', function (event) {
