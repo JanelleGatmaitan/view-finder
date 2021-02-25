@@ -4,6 +4,10 @@ var $searchBar = document.querySelector('.search');
 var $astronomyData = document.querySelector('.astronomy-data');
 var $recs = document.querySelector('.results');
 var $back = document.querySelector('.back');
+var $city = document.querySelector('.city');
+var $currentTime = document.querySelector('.current-time');
+var $rise = document.querySelector('.rise');
+var $set = document.querySelector('.set');
 
 if (favoritesData.display === 'search') {
   $searchBar.className = 'hidden';
@@ -57,6 +61,10 @@ $searchButton.addEventListener('click', function (event) {
   // getAstronomyLocationParam();
   // getAstronomyData();
   getPlacesData();
+  $;
+  $currentTime.value = searchData.astroData.currentTime;
+  $;
+
 });
 
 $back.addEventListener('click', function (event) {
