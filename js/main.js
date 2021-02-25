@@ -17,12 +17,9 @@ function getAstronomyData() {
   xhr.open('GET', astronomyEndpoint + astronomyLocationParam);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    console.log(xhr.status);
-    console.log('Astronomy data: ', xhr.response);
     searchData.astroData.currentTime = xhr.response.current_time;
     searchData.astroData.sunriseTime = xhr.response.sunrise;
     searchData.astroData.sunsetTime = xhr.response.sunset;
-    console.log('xhr.response.current_time', xhr.response.current_time);
   });
   xhr.send();
 }
@@ -57,9 +54,8 @@ $searchButton.addEventListener('click', function (event) {
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
   favoritesData.display = 'search';
-  getAstronomyLocationParam();
-  console.log('astroLocationParam: ', astronomyLocationParam);
-  getAstronomyData();
+  // getAstronomyLocationParam();
+  // getAstronomyData();
   getPlacesData();
 });
 
@@ -92,7 +88,6 @@ function storePhotoData() {
   for (var j = 0; j < searchData.placesSearchResults.length; j++) {
     getPlacesPhotoData(searchData.placesSearchResults[j]);
   }
-  console.log('searchData.photoData', searchData.photoData);
 }
 // var photoURL = prefix + '500x500' + suffix;
 
@@ -103,8 +98,6 @@ function getPlacesPhotoData(result) {
   xhr.open('GET', photoEndpoint + result.id + clientID);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    console.log(xhr.status);
-    console.log('PlacesPhoto Response: ', xhr.response);
     searchData.photoData.push(xhr.response);
   });
   xhr.send();
