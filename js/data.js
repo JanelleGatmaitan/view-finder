@@ -3,6 +3,7 @@ var data = {
   display: null,
   userInput: {},
   astroData: {},
+  photoData: [],
   placesSearchResults: [],
   favorites: []
 }

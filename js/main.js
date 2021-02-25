@@ -61,7 +61,7 @@ $searchButton.addEventListener('click', function (event) {
   console.log('astroLocationParam: ', astronomyLocationParam);
   // getAstronomyData();
   getPlacesData();
-  getPlacesPhotos();
+  getPlacesPhotoData();
 });
 
 $back.addEventListener('click', function (event) {
@@ -82,7 +82,6 @@ function getPlacesData() {
   xhr.addEventListener('load', function () {
     console.log(xhr.status);
     console.log('Places Response: ', xhr.response);
-    console.log('typeof xhr.response.response.groups[0].items: ', typeof xhr.response.response.groups[0].items, xhr.response.response.groups[0].items);
     for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
       var place = xhr.response.response.groups[0].items[i].venue;
       data.placesSearchResults.push(place);
@@ -97,23 +96,23 @@ for (var j = 0; j < data.placesSearchResults.length; j++) {
   placeIDs.push(data.placesSearchResults[j].id);
 }
 
-function get
-// function getPlacesPhotos() {
-//   var xhr = new XMLHttpRequest();
-//   var photoEndpoint = 'https://api.foursquare.com/v2/venues/';
-//   // var foursquareID = '';
-//   var clientID = '/photos?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&group=venue&limit=1';
-//   for (var j = 0; j < data.placesSearchResults.length; j++) {
-//     xhr.open('GET', photoEndpoint + data.placesSearchResults[j].id + clientID);
-//     xhr.responseType = 'json';
-//   }
-//   // var foursquarePlaceID = data.placesSearchResults[j].id;
-//   // xhr.open('GET', photoEndpoint + foursquareID + clientID);
-//   // xhr.responseType = 'json';
-//   xhr.addEventListener('load', function () {
-//     console.log(xhr.status);
-//     console.log('PlacesPhoto Response: ', xhr.response);
-//   });
-//   xhr.send();
+// function getPhotoURLs() {
+
 // }
+
+function getPlacesPhotoData() {
+  var xhr = new XMLHttpRequest();
+  var photoEndpoint = 'https://api.foursquare.com/v2/venues/';
+  var clientID = '/photos?client_id=MGLS4THDKMFHYLSPVD5FIA1QNNUYFTSLERRRYZYKOWPKVK2R&client_secret=VZAFPX0YYBAAZ0GGDPMAR2VAJR5CFBWQXTXQ5IUBBF4H521E&v=20180323&group=venue&limit=1';
+  for (var j = 0; j < data.placesSearchResults.length; j++) {
+    xhr.open('GET', photoEndpoint + data.placesSearchResults[j].id + clientID);
+    xhr.responseType = 'json';
+    console.log('PlacesPhoto Response: ', xhr.response);
+    data.photoData.push(xhr.response);
+  }
+  xhr.addEventListener('load', function () {
+    console.log(xhr.status);
+  });
+  xhr.send();
+}
 // '4e40e8fdae60920b01735322'
