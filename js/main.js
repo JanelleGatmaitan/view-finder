@@ -111,8 +111,12 @@ function storePhotoData() {
   for (var j = 0; j < searchData.placesSearchResults.length; j++) {
     getPlacesPhotoData(searchData.placesSearchResults[j]);
   }
+  for (var i = 0; i < searchData.photoData.length; i++) {
+    var prefix = searchData.photoData[i].response.photos.items[0].prefix;
+    var suffix = searchData.photoData[i].response.photos.items[0].suffix;
+    var photoURL = prefix + '500x500' + suffix;
+  }
 }
-// var photoURL = prefix + '500x500' + suffix;
 
 function getPlacesPhotoData(result) {
   var xhr = new XMLHttpRequest();
