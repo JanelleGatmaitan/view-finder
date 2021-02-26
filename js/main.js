@@ -4,11 +4,22 @@ var $searchBar = document.querySelector('.search');
 var $astronomyData = document.querySelector('.astronomy-data');
 var $recs = document.querySelector('.results');
 var $back = document.querySelector('.back');
+var $city = document.querySelector('.city');
+var $currentTime = document.querySelector('.current-time');
+var $rise = document.querySelector('.rise');
+var $set = document.querySelector('.set');
 
 if (favoritesData.display === 'search') {
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
+}
+
+if (searchData != null) {
+  $city.textContent = searchData.userInput.unsplit;
+  $currentTime.textContent = searchData.astroData.currentTime;
+  $rise.textContent = searchData.astroData.sunriseTime;
+  $set.textContent = searchData.astroData.sunsetTime;
 }
 
 function getAstronomyData() {
@@ -20,6 +31,9 @@ function getAstronomyData() {
     searchData.astroData.currentTime = xhr.response.current_time;
     searchData.astroData.sunriseTime = xhr.response.sunrise;
     searchData.astroData.sunsetTime = xhr.response.sunset;
+    $currentTime.textContent = searchData.astroData.currentTime;
+    $rise.textContent = searchData.astroData.sunriseTime;
+    $set.textContent = searchData.astroData.sunsetTime;
   });
   xhr.send();
 }
@@ -47,24 +61,33 @@ function getAstronomyLocationParam() {
 }
 
 $searchButton.addEventListener('click', function (event) {
-  event.preventDefault();
+  favoritesData.display = 'search';
   searchData.userInput.unsplit = $input.value;
   splitUserInput(searchData.userInput);
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
-  favoritesData.display = 'search';
-  // getAstronomyLocationParam();
-  // getAstronomyData();
+  getAstronomyLocationParam();
+  getAstronomyData();
   getPlacesData();
+  $city.textContent = searchData.userInput.unsplit;
 });
 
 $back.addEventListener('click', function (event) {
+  searchData = {
+    userInput: {},
+    astroData: {},
+    photoData: [],
+    placesSearchResults: []
+  }
+  ;
+  var searchDataJSON = JSON.stringify(searchData);
+  localStorage.setItem('search-results', searchDataJSON);
   $input.value = '';
+  favoritesData.display = 'home';
   $searchBar.className = 'search';
   $astronomyData.className = 'hidden';
   $recs.className = 'hidden';
-  favoritesData.display = 'home';
 });
 
 function getPlacesData() {
