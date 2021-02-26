@@ -100,23 +100,12 @@ function getPlacesData() {
     for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
       var place = xhr.response.response.groups[0].items[i].venue;
       searchData.placesSearchResults.push(place);
-      // getPlacesPhotoData(searchData.placesSearchResults[i]);
+      getPlacesPhotoData(searchData.placesSearchResults[i]);
     }
   });
   xhr.send();
 }
 
-// function storePhotoData() {
-//   for (var j = 0; j < searchData.placesSearchResults.length; j++) {
-//     getPlacesPhotoData(searchData.placesSearchResults[j]);
-//   }
-//   for (var i = 0; i < searchData.photoData.length; i++) {
-//     var prefix = searchData.photoData[i].response.photos.items[0].prefix;
-//     var suffix = searchData.photoData[i].response.photos.items[0].suffix;
-//     var photoURL = prefix + '500x500' + suffix;
-//     searchData.placesSearchResults[i].photoUrl = photoURL;
-//   }
-// }
 function getPlacesPhotoData(result) {
   var xhr = new XMLHttpRequest();
   var photoEndpoint = 'https://api.foursquare.com/v2/venues/';
@@ -124,35 +113,39 @@ function getPlacesPhotoData(result) {
   xhr.open('GET', photoEndpoint + result.id + clientID);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    var prefix = xhr.response.response.photos.items[0].prefix;
-    var suffix = xhr.response.response.photos.items[0].suffix;
-    var photoURL = prefix + '500x500' + suffix;
-    searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
+    // var prefix = xhr.response.response.photos.items[0].prefix;
+    // var suffix = xhr.response.response.photos.items[0].suffix;
+    // var photoURL = prefix + '500x500' + suffix;
+    // searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
+    searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = 'dummy url';
+    for (var i = 0; i < 5; i++) {
+      renderResults(searchData.placesSearchResults);
+    }
   });
   xhr.send();
 }
 
+var index = 0;
 function renderResults(result) {
-  for (var i = 0; i < 5; i++) {
-    var venueDiv = document.createElement('div');
-    venueDiv.setAttribute('class', 'venue-card');
-    var like = document.createElement('i');
-    like.setAttribute('class', 'far fa-heart like heart');
-    venueDiv.appendChild(like);
-    var infoName = document.createElement('p');
-    infoName.setAttribute('class', 'venue-info');
-    var infoAddress = document.createElement('p');
-    infoAddress.setAttribute('class', 'venue-info');
-    var placeName = document.createTextNode(result[i].name);
-    var placeAddress = document.createTextNode(result[i].location.formattedAddress[0]);
-    infoName.appendChild(placeName);
-    infoAddress.appendChild(placeAddress);
-    venueDiv.appendChild(infoName);
-    venueDiv.appendChild(infoAddress);
-    var photo = document.createElement('img');
-    photo.setAttribute('class', 'row');
-    photo.setAttribute('src', result[i].photoUrl);
-    venueDiv.appendChild(photo);
-    $recs.appendChild(venueDiv);
-  }
+  var venueDiv = document.createElement('div');
+  venueDiv.setAttribute('class', 'venue-card');
+  var like = document.createElement('i');
+  like.setAttribute('class', 'far fa-heart like heart');
+  venueDiv.appendChild(like);
+  var infoName = document.createElement('p');
+  infoName.setAttribute('class', 'venue-info');
+  var infoAddress = document.createElement('p');
+  infoAddress.setAttribute('class', 'venue-info');
+  var placeName = document.createTextNode(result[index].name);
+  var placeAddress = document.createTextNode(result[index].location.formattedAddress[0]);
+  infoName.appendChild(placeName);
+  infoAddress.appendChild(placeAddress);
+  venueDiv.appendChild(infoName);
+  venueDiv.appendChild(infoAddress);
+  var photo = document.createElement('img');
+  photo.setAttribute('class', 'row');
+  photo.setAttribute('src', result[0].photoUrl);
+  venueDiv.appendChild(photo);
+  $recs.appendChild(venueDiv);
+  index++;
 }
