@@ -69,7 +69,7 @@ $searchButton.addEventListener('click', function (event) {
   $recs.className = 'results';
   getAstronomyLocationParam();
   getAstronomyData();
-  // getPlacesData();
+  getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
 });
 
