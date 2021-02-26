@@ -77,7 +77,6 @@ $back.addEventListener('click', function (event) {
   searchData = {
     userInput: {},
     astroData: {},
-    photoData: [],
     placesSearchResults: []
   }
   ;
@@ -138,14 +137,22 @@ function renderResults(result) {
     var venueDiv = document.createElement('div');
     venueDiv.setAttribute('class', 'venue-card');
     var like = document.createElement('i');
-    like.setAttribute('far fa-heart like heart');
+    like.setAttribute('class', 'far fa-heart like heart');
     venueDiv.appendChild(like);
-    var info = document.createElement('p');
-    info.setAttribute('class', 'venue-info');
-    venueDiv.appendChild(info);
+    var infoName = document.createElement('p');
+    infoName.setAttribute('class', 'venue-info');
+    var infoAddress = document.createElement('p');
+    infoAddress.setAttribute('class', 'venue-info');
+    var placeName = document.createTextNode(result[i].name);
+    var placeAddress = document.createTextNode(result[i].location.formattedAddress[0]);
+    infoName.appendChild(placeName);
+    infoAddress.appendChild(placeAddress);
+    venueDiv.appendChild(infoName);
+    venueDiv.appendChild(infoAddress);
     var photo = document.createElement('img');
     photo.setAttribute('class', 'row');
     photo.setAttribute('src', result[i].photoUrl);
     venueDiv.appendChild(photo);
+    $recs.appendChild(venueDiv);
   }
 }
