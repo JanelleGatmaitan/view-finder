@@ -67,8 +67,8 @@ $searchButton.addEventListener('click', function (event) {
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
-  getAstronomyLocationParam();
-  getAstronomyData();
+  // getAstronomyLocationParam();
+  // getAstronomyData();
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
 });
@@ -101,7 +101,7 @@ function getPlacesData() {
     for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
       var place = xhr.response.response.groups[0].items[i].venue;
       searchData.placesSearchResults.push(place);
-      getPlacesPhotoData(searchData.placesSearchResults[i]);
+      // getPlacesPhotoData(searchData.placesSearchResults[i]);
     }
   });
   xhr.send();
@@ -131,4 +131,21 @@ function getPlacesPhotoData(result) {
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
   });
   xhr.send();
+}
+
+function renderResults(result) {
+  for (var i = 0; i < 5; i++) {
+    var venueDiv = document.createElement('div');
+    venueDiv.setAttribute('class', 'venue-card');
+    var like = document.createElement('i');
+    like.setAttribute('far fa-heart like heart');
+    venueDiv.appendChild(like);
+    var info = document.createElement('p');
+    info.setAttribute('class', 'venue-info');
+    venueDiv.appendChild(info);
+    var photo = document.createElement('img');
+    photo.setAttribute('class', 'row');
+    photo.setAttribute('src', result[i].photoUrl);
+    venueDiv.appendChild(photo);
+  }
 }
