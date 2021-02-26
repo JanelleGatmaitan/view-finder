@@ -15,6 +15,13 @@ if (favoritesData.display === 'search') {
   $recs.className = 'results';
 }
 
+if (searchData != null) {
+  $city.textContent = searchData.userInput.unsplit;
+  $currentTime.textContent = searchData.astroData.currentTime;
+  $rise.textContent = searchData.astroData.sunriseTime;
+  $set.textContent = searchData.astroData.sunsetTime;
+}
+
 function getAstronomyData() {
   var xhr = new XMLHttpRequest();
   var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
@@ -62,8 +69,7 @@ $searchButton.addEventListener('click', function (event) {
   $recs.className = 'results';
   getAstronomyLocationParam();
   getAstronomyData();
-  getPlacesData();
-  console.log(searchData);
+  // getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
 });
 
