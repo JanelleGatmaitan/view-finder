@@ -29,17 +29,17 @@ img {
   margin: 0 auto;
 }
 
+.astronomy-data {
+  margin: 0 auto;
+  height: 15rem;
+  padding: 2.5rem 0;
+}
+
 .astronomy-data,
 .venue-card {
   text-align: center;
   width: 20rem;
-  margin: 0 auto;
   margin-top: 25px;
-}
-
-.astronomy-data {
-  height: 15rem;
-  padding: 2.5rem 0;
 }
 
 .venue-card {
@@ -80,4 +80,9 @@ img {
   font-size: 5rem;
 }
 
+}
+
+ul {
+  margin: 0 auto;
+  text-align: center;
 }
