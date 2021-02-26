@@ -67,8 +67,8 @@ $searchButton.addEventListener('click', function (event) {
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
-  // getAstronomyLocationParam();
-  // getAstronomyData();
+  getAstronomyLocationParam();
+  getAstronomyData();
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
 });
@@ -125,7 +125,6 @@ function getPlacesPhotoData(result) {
   xhr.open('GET', photoEndpoint + result.id + clientID);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    console.log(xhr.response);
     var prefix = xhr.response.response.photos.items[0].prefix;
     var suffix = xhr.response.response.photos.items[0].suffix;
     var photoURL = prefix + '500x500' + suffix;
