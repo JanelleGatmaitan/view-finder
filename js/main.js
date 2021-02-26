@@ -144,7 +144,7 @@ function renderResults(result) {
   venueDiv.appendChild(infoAddress);
   var photo = document.createElement('img');
   photo.setAttribute('class', 'row');
-  photo.setAttribute('src', result[0].photoUrl);
+  photo.setAttribute('src', result[index].photoUrl);
   venueDiv.appendChild(photo);
   $recs.appendChild(venueDiv);
   index++;
