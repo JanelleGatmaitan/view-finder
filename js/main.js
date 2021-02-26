@@ -67,8 +67,8 @@ $searchButton.addEventListener('click', function (event) {
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
   $recs.className = 'results';
-  // getAstronomyLocationParam();
-  // getAstronomyData();
+  getAstronomyLocationParam();
+  getAstronomyData();
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
 });
@@ -97,7 +97,7 @@ function getPlacesData() {
   xhr.open('GET', placesEndpoint + nearParam + queryParam);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
+    for (var i = 0; i < 5; i++) {
       var place = xhr.response.response.groups[0].items[i].venue;
       searchData.placesSearchResults.push(place);
       getPlacesPhotoData(searchData.placesSearchResults[i]);
@@ -118,34 +118,41 @@ function getPlacesPhotoData(result) {
     // var photoURL = prefix + '500x500' + suffix;
     // searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = 'dummy url';
-    for (var i = 0; i < 5; i++) {
-      renderResults(searchData.placesSearchResults);
-    }
+    // for (var i = 0; i < 5; i++) {
+    //   renderResults(searchData.placesSearchResults);
+    // }
   });
   xhr.send();
 }
 
-var index = 0;
-function renderResults(result) {
-  var venueDiv = document.createElement('div');
-  venueDiv.setAttribute('class', 'venue-card');
-  var like = document.createElement('i');
-  like.setAttribute('class', 'far fa-heart like heart');
-  venueDiv.appendChild(like);
-  var infoName = document.createElement('p');
-  infoName.setAttribute('class', 'venue-info');
-  var infoAddress = document.createElement('p');
-  infoAddress.setAttribute('class', 'venue-info');
-  var placeName = document.createTextNode(result[index].name);
-  var placeAddress = document.createTextNode(result[index].location.formattedAddress[0]);
-  infoName.appendChild(placeName);
-  infoAddress.appendChild(placeAddress);
-  venueDiv.appendChild(infoName);
-  venueDiv.appendChild(infoAddress);
-  var photo = document.createElement('img');
-  photo.setAttribute('class', 'row');
-  photo.setAttribute('src', result[index].photoUrl);
-  venueDiv.appendChild(photo);
-  $recs.appendChild(venueDiv);
-  index++;
-}
+// var index = 0;
+// function renderResults(result) {
+//   var venueDiv = document.createElement('div');
+//   venueDiv.setAttribute('class', 'venue-card');
+//   var like = document.createElement('i');
+//   like.setAttribute('class', 'far fa-heart like heart');
+//   venueDiv.appendChild(like);
+//   var infoName = document.createElement('p');
+//   infoName.setAttribute('class', 'venue-info');
+//   var infoAddress = document.createElement('p');
+//   infoAddress.setAttribute('class', 'venue-info');
+//   var placeName = document.createTextNode(result[index].name);
+//   var placeAddress = document.createTextNode(result[index].location.formattedAddress[0]);
+//   infoName.appendChild(placeName);
+//   infoAddress.appendChild(placeAddress);
+//   venueDiv.appendChild(infoName);
+//   venueDiv.appendChild(infoAddress);
+//   var photo = document.createElement('img');
+//   photo.setAttribute('class', 'row');
+//   photo.setAttribute('src', result[index].photoUrl);
+//   venueDiv.appendChild(photo);
+//   $recs.appendChild(venueDiv);
+//   index++;
+//   return venueDiv;
+// }
+
+// window.addEventListener('DOMContentLoaded', function (event) {
+//   for (var i = 0; i < 5; i++) {
+//     renderResults(searchData.placesSearchResults);
+//   }
+// });
