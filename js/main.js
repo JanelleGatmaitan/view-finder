@@ -8,6 +8,7 @@ var $city = document.querySelector('.city');
 var $currentTime = document.querySelector('.current-time');
 var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
+var displayedResults = document.querySelectorAll('.venue-card');
 
 if (favoritesData.display === 'search') {
   $searchBar.className = 'hidden';
@@ -80,6 +81,7 @@ $back.addEventListener('click', function (event) {
     placesSearchResults: []
   }
   ;
+  // resetSearchDisplay();
   var searchDataJSON = JSON.stringify(searchData);
   localStorage.setItem('search-results', searchDataJSON);
   $input.value = '';
@@ -113,11 +115,11 @@ function getPlacesPhotoData(result) {
   xhr.open('GET', photoEndpoint + result.id + clientID);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    // var prefix = xhr.response.response.photos.items[0].prefix;
-    // var suffix = xhr.response.response.photos.items[0].suffix;
-    // var photoURL = prefix + '500x500' + suffix;
-    // searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
-    searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = 'dummy url';
+    var prefix = xhr.response.response.photos.items[0].prefix;
+    var suffix = xhr.response.response.photos.items[0].suffix;
+    var photoURL = prefix + '500x500' + suffix;
+    searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
+    // searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = 'dummy url';
     for (var i = 0; i < 5; i++) {
       renderResults(searchData.placesSearchResults);
     }
@@ -148,11 +150,25 @@ function renderResults(result) {
   venueDiv.appendChild(photo);
   $recs.appendChild(venueDiv);
   index++;
-  return venueDiv;
 }
 
-window.addEventListener('DOMContentLoaded', function (event) {
+// window.addEventListener('DOMContentLoaded', function (event) {
+//   if (searchData != null) {
+//     for (var i = 0; i < 5; i++) {
+//       renderResults(searchData.placesSearchResults);
+//     }
+//   }
+// });
+if (searchData != null) {
+  window.addEventListener('DOMContentLoaded', function () {
+    for (var i = 0; i < 5; i++) {
+      renderResults(searchData.placesSearchResults);
+    }
+  });
+}
+
+function resetSearchDisplay() {
   for (var i = 0; i < 5; i++) {
-    renderResults(searchData.placesSearchResults);
+    displayedResults[i].textContent = '';
   }
-});
+}
