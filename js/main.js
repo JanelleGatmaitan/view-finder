@@ -151,8 +151,8 @@ function renderResults(result) {
   return venueDiv;
 }
 
-// window.addEventListener('DOMContentLoaded', function (event) {
-//   for (var i = 0; i < 5; i++) {
-//     renderResults(searchData.placesSearchResults);
-//   }
-// });
+window.addEventListener('DOMContentLoaded', function (event) {
+  for (var i = 0; i < 5; i++) {
+    renderResults(searchData.placesSearchResults);
+  }
+});

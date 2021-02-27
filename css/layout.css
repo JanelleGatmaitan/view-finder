@@ -30,13 +30,13 @@ img {
 }
 
 .astronomy-data {
-  margin: 0 auto;
   height: 15rem;
   padding: 2.5rem 0;
 }
 
 .astronomy-data,
 .venue-card {
+  margin: 0 auto;
   text-align: center;
   width: 20rem;
   margin-top: 25px;
@@ -84,5 +84,4 @@ img {
 
 ul {
   margin: 0 auto;
-  text-align: center;
 }
