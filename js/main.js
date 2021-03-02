@@ -8,12 +8,8 @@ var $city = document.querySelector('.city');
 var $currentTime = document.querySelector('.current-time');
 var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
-
-if (favoritesData.display === 'search') {
-  $searchBar.className = 'hidden';
-  $astronomyData.className = 'astronomy-data';
-  $recs.className = 'results';
-}
+var $parent = document.querySelector('.results');
+var $venueCards = document.querySelectorAll('.venue-card');
 
 if (searchData != null) {
   $city.textContent = searchData.userInput.unsplit;
@@ -61,6 +57,9 @@ function getAstronomyLocationParam() {
 }
 
 $searchButton.addEventListener('click', function (event) {
+  if ($venueCards.length !== 0) {
+    $parent.innerText = ' ';
+  }
   favoritesData.display = 'search';
   searchData.userInput.unsplit = $input.value;
   splitUserInput(searchData.userInput);
@@ -70,17 +69,18 @@ $searchButton.addEventListener('click', function (event) {
   getAstronomyLocationParam();
   getAstronomyData();
   getPlacesData();
-
   $city.textContent = searchData.userInput.unsplit;
 });
 
 $back.addEventListener('click', function (event) {
+  localStorage.removeItem('search-results');
   searchData = {
     userInput: {},
     astroData: {},
     placesSearchResults: []
   }
   ;
+  sessionStorage.setItem('search-results', searchData);
   var searchDataJSON = JSON.stringify(searchData);
   localStorage.setItem('search-results', searchDataJSON);
   $input.value = '';
@@ -103,7 +103,7 @@ function getPlacesData() {
       searchData.placesSearchResults.push(place);
       getPlacesPhotoData(searchData.placesSearchResults[i]);
     }
-
+    $venueCards = document.querySelectorAll('.venue-card');
   });
   xhr.send();
 
@@ -121,6 +121,7 @@ function getPlacesPhotoData(result) {
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
     renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
+    $venueCards = document.querySelectorAll('.venue-card');
   });
   xhr.send();
 }
@@ -148,24 +149,13 @@ function renderResult(result) {
   $recs.appendChild(venueDiv);
 }
 
-// window.addEventListener('DOMContentLoaded', function (event) {
-//   if (searchData != null) {
-//     for (var i = 0; i < 5; i++) {
-//       renderResults(searchData.placesSearchResults);
-//     }
-//   }
-// });
-// if (searchData != null) {
-//   window.addEventListener('DOMContentLoaded', function () {
-//     for (var i = 0; i < 5; i++) {
-//       renderResults(searchData.placesSearchResults);
-//     }
-//   });
-// }
-
-function resetSearchDisplay() {
-  var displayedResults = document.querySelectorAll('.venue-card');
-  for (var i = 0; i < 5; i++) {
-    displayedResults[i].textContent = '';
+window.addEventListener('DOMContentLoaded', function (event) {
+  if (favoritesData.display === 'search') {
+    $searchBar.className = 'hidden';
+    $astronomyData.className = 'astronomy-data';
+    $recs.className = 'results';
+    for (var i = 0; i < 5; i++) {
+      renderResult(searchData.placesSearchResults[i]);
+    }
   }
-}
+});
