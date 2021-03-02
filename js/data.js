@@ -2,7 +2,6 @@
 var searchData = {
   userInput: {},
   astroData: {},
-  photoData: [],
   placesSearchResults: []
 }
 ;

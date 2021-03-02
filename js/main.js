@@ -8,12 +8,8 @@ var $city = document.querySelector('.city');
 var $currentTime = document.querySelector('.current-time');
 var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
-
-if (favoritesData.display === 'search') {
-  $searchBar.className = 'hidden';
-  $astronomyData.className = 'astronomy-data';
-  $recs.className = 'results';
-}
+var $parent = document.querySelector('.results');
+var $venueCards = document.querySelectorAll('.venue-card');
 
 if (searchData != null) {
   $city.textContent = searchData.userInput.unsplit;
@@ -61,6 +57,9 @@ function getAstronomyLocationParam() {
 }
 
 $searchButton.addEventListener('click', function (event) {
+  if ($venueCards.length !== 0) {
+    $parent.innerText = ' ';
+  }
   favoritesData.display = 'search';
   searchData.userInput.unsplit = $input.value;
   splitUserInput(searchData.userInput);
@@ -74,10 +73,10 @@ $searchButton.addEventListener('click', function (event) {
 });
 
 $back.addEventListener('click', function (event) {
+  localStorage.removeItem('search-results');
   searchData = {
     userInput: {},
     astroData: {},
-    photoData: [],
     placesSearchResults: []
   }
   ;
@@ -98,21 +97,16 @@ function getPlacesData() {
   xhr.open('GET', placesEndpoint + nearParam + queryParam);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    for (var i = 0; i < xhr.response.response.groups[0].items.length; i++) {
+    for (var i = 0; i < 5; i++) {
       var place = xhr.response.response.groups[0].items[i].venue;
       searchData.placesSearchResults.push(place);
+      getPlacesPhotoData(searchData.placesSearchResults[i]);
     }
-    storePhotoData();
+    $venueCards = document.querySelectorAll('.venue-card');
   });
   xhr.send();
-}
 
-function storePhotoData() {
-  for (var j = 0; j < searchData.placesSearchResults.length; j++) {
-    getPlacesPhotoData(searchData.placesSearchResults[j]);
-  }
 }
-// var photoURL = prefix + '500x500' + suffix;
 
 function getPlacesPhotoData(result) {
   var xhr = new XMLHttpRequest();
@@ -121,7 +115,46 @@ function getPlacesPhotoData(result) {
   xhr.open('GET', photoEndpoint + result.id + clientID);
   xhr.responseType = 'json';
   xhr.addEventListener('load', function () {
-    searchData.photoData.push(xhr.response);
+    var prefix = xhr.response.response.photos.items[0].prefix;
+    var suffix = xhr.response.response.photos.items[0].suffix;
+    var photoURL = prefix + '500x500' + suffix;
+    searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
+    renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
+    $venueCards = document.querySelectorAll('.venue-card');
   });
   xhr.send();
 }
+
+function renderResult(result) {
+  var venueDiv = document.createElement('div');
+  venueDiv.setAttribute('class', 'venue-card');
+  var like = document.createElement('i');
+  like.setAttribute('class', 'far fa-heart like heart');
+  venueDiv.appendChild(like);
+  var infoName = document.createElement('p');
+  infoName.setAttribute('class', 'venue-info');
+  var infoAddress = document.createElement('p');
+  infoAddress.setAttribute('class', 'venue-info');
+  var placeName = document.createTextNode(result.name);
+  var placeAddress = document.createTextNode(result.location.formattedAddress[0]);
+  infoName.appendChild(placeName);
+  infoAddress.appendChild(placeAddress);
+  venueDiv.appendChild(infoName);
+  venueDiv.appendChild(infoAddress);
+  var photo = document.createElement('img');
+  photo.setAttribute('class', 'row');
+  photo.setAttribute('src', result.photoUrl);
+  venueDiv.appendChild(photo);
+  $recs.appendChild(venueDiv);
+}
+
+window.addEventListener('DOMContentLoaded', function (event) {
+  if (favoritesData.display === 'search') {
+    $searchBar.className = 'hidden';
+    $astronomyData.className = 'astronomy-data';
+    $recs.className = 'results';
+    for (var i = 0; i < 5; i++) {
+      renderResult(searchData.placesSearchResults[i]);
+    }
+  }
+});
