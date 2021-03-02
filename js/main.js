@@ -80,7 +80,6 @@ $back.addEventListener('click', function (event) {
     placesSearchResults: []
   }
   ;
-  sessionStorage.setItem('search-results', searchData);
   var searchDataJSON = JSON.stringify(searchData);
   localStorage.setItem('search-results', searchDataJSON);
   $input.value = '';
