@@ -26,7 +26,7 @@ img {
   width:  250px;
   height: 250px;
   background-size: cover;
-  margin: 0 auto;
+  margin-bottom: 30px
 }
 
 .astronomy-data {
@@ -43,7 +43,6 @@ img {
 }
 
 .venue-card {
-  height: 25rem;
   margin-bottom: 20px
 }
 
@@ -72,7 +71,6 @@ img {
 }
 
 .venue-card {
-  height: 32rem;
   margin-bottom: 30px
 }
 

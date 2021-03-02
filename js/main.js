@@ -120,15 +120,12 @@ function getPlacesPhotoData(result) {
     var suffix = xhr.response.response.photos.items[0].suffix;
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
-    // searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = 'dummy url';
-    renderResults(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
-
+    renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
   });
   xhr.send();
 }
 
-// var index = 0;
-function renderResults(result) {
+function renderResult(result) {
   var venueDiv = document.createElement('div');
   venueDiv.setAttribute('class', 'venue-card');
   var like = document.createElement('i');
@@ -149,7 +146,6 @@ function renderResults(result) {
   photo.setAttribute('src', result.photoUrl);
   venueDiv.appendChild(photo);
   $recs.appendChild(venueDiv);
-  // index++;
 }
 
 // window.addEventListener('DOMContentLoaded', function (event) {
