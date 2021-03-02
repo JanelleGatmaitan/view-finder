@@ -57,7 +57,7 @@ function getAstronomyLocationParam() {
 }
 
 $searchButton.addEventListener('click', function (event) {
-  if ($venueCards.length !== 0) {
+  if (favoritesData.newSearch) {
     $parent.innerText = ' ';
   }
   favoritesData.display = 'search';
@@ -70,6 +70,7 @@ $searchButton.addEventListener('click', function (event) {
   getAstronomyData();
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
+  favoritesData.newSearch = true;
 });
 
 $back.addEventListener('click', function (event) {
@@ -102,7 +103,6 @@ function getPlacesData() {
       searchData.placesSearchResults.push(place);
       getPlacesPhotoData(searchData.placesSearchResults[i]);
     }
-    $venueCards = document.querySelectorAll('.venue-card');
   });
   xhr.send();
 
@@ -120,7 +120,6 @@ function getPlacesPhotoData(result) {
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
     renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
-    $venueCards = document.querySelectorAll('.venue-card');
   });
   xhr.send();
 }
