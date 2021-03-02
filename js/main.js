@@ -9,7 +9,6 @@ var $currentTime = document.querySelector('.current-time');
 var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
 var $parent = document.querySelector('.results');
-var $venueCards = document.querySelectorAll('.venue-card');
 
 if (searchData != null) {
   $city.textContent = searchData.userInput.unsplit;
@@ -127,6 +126,7 @@ function getPlacesPhotoData(result) {
 function renderResult(result) {
   var venueDiv = document.createElement('div');
   venueDiv.setAttribute('class', 'venue-card');
+  venueDiv.setAttribute('venue-id', result.id);
   var like = document.createElement('i');
   like.setAttribute('class', 'far fa-heart like heart');
   venueDiv.appendChild(like);
