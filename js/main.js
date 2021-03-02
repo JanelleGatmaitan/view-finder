@@ -10,12 +10,6 @@ var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
 var $parent = document.querySelector('.results');
 
-if (favoritesData.display === 'home') {
-  $searchBar.className = 'search';
-  $astronomyData.className = 'hidden';
-  $recs.className = 'hidden';
-}
-
 if (searchData !== null) {
   $city.textContent = searchData.userInput.unsplit;
   $currentTime.textContent = searchData.astroData.currentTime;
@@ -162,10 +156,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
     for (var i = 0; i < 5; i++) {
       renderResult(searchData.placesSearchResults[i]);
     }
+  } else if (favoritesData.display === 'home') {
+    $searchBar.className = 'search';
+    $astronomyData.className = 'hidden';
+    $recs.className = 'hidden';
   }
   $parent.addEventListener('click', function (event) {
-    if (event.target && event.target.matches('i.heart')) {
-      console.log('item has been favoited');
+    if (event.target && event.target.matches('i.like')) {
+      console.log('item has been favorited');
     }
   });
 });
