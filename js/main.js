@@ -10,7 +10,13 @@ var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
 var $parent = document.querySelector('.results');
 
-if (searchData != null) {
+if (favoritesData.display === 'home') {
+  $searchBar.className = 'search';
+  $astronomyData.className = 'hidden';
+  $recs.className = 'hidden';
+}
+
+if (searchData !== null) {
   $city.textContent = searchData.userInput.unsplit;
   $currentTime.textContent = searchData.astroData.currentTime;
   $rise.textContent = searchData.astroData.sunriseTime;
@@ -73,6 +79,7 @@ $searchButton.addEventListener('click', function (event) {
 });
 
 $back.addEventListener('click', function (event) {
+  favoritesData.display = 'home';
   localStorage.removeItem('search-results');
   searchData = {
     userInput: {},
@@ -156,4 +163,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
       renderResult(searchData.placesSearchResults[i]);
     }
   }
+  $parent.addEventListener('click', function (event) {
+    if (event.target && event.target.matches('i.heart')) {
+      console.log('item has been favoited');
+    }
+  });
 });
