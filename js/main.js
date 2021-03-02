@@ -8,7 +8,6 @@ var $city = document.querySelector('.city');
 var $currentTime = document.querySelector('.current-time');
 var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
-var displayedResults = document.querySelectorAll('.venue-card');
 
 if (favoritesData.display === 'search') {
   $searchBar.className = 'hidden';
@@ -71,6 +70,7 @@ $searchButton.addEventListener('click', function (event) {
   getAstronomyLocationParam();
   getAstronomyData();
   getPlacesData();
+
   $city.textContent = searchData.userInput.unsplit;
 });
 
@@ -81,7 +81,6 @@ $back.addEventListener('click', function (event) {
     placesSearchResults: []
   }
   ;
-  // resetSearchDisplay();
   var searchDataJSON = JSON.stringify(searchData);
   localStorage.setItem('search-results', searchDataJSON);
   $input.value = '';
@@ -104,8 +103,10 @@ function getPlacesData() {
       searchData.placesSearchResults.push(place);
       getPlacesPhotoData(searchData.placesSearchResults[i]);
     }
+
   });
   xhr.send();
+
 }
 
 function getPlacesPhotoData(result) {
@@ -120,14 +121,13 @@ function getPlacesPhotoData(result) {
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
     // searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = 'dummy url';
-    for (var i = 0; i < 5; i++) {
-      renderResults(searchData.placesSearchResults);
-    }
+    renderResults(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
+
   });
   xhr.send();
 }
 
-var index = 0;
+// var index = 0;
 function renderResults(result) {
   var venueDiv = document.createElement('div');
   venueDiv.setAttribute('class', 'venue-card');
@@ -138,18 +138,18 @@ function renderResults(result) {
   infoName.setAttribute('class', 'venue-info');
   var infoAddress = document.createElement('p');
   infoAddress.setAttribute('class', 'venue-info');
-  var placeName = document.createTextNode(result[index].name);
-  var placeAddress = document.createTextNode(result[index].location.formattedAddress[0]);
+  var placeName = document.createTextNode(result.name);
+  var placeAddress = document.createTextNode(result.location.formattedAddress[0]);
   infoName.appendChild(placeName);
   infoAddress.appendChild(placeAddress);
   venueDiv.appendChild(infoName);
   venueDiv.appendChild(infoAddress);
   var photo = document.createElement('img');
   photo.setAttribute('class', 'row');
-  photo.setAttribute('src', result[index].photoUrl);
+  photo.setAttribute('src', result.photoUrl);
   venueDiv.appendChild(photo);
   $recs.appendChild(venueDiv);
-  index++;
+  // index++;
 }
 
 // window.addEventListener('DOMContentLoaded', function (event) {
@@ -159,15 +159,16 @@ function renderResults(result) {
 //     }
 //   }
 // });
-if (searchData != null) {
-  window.addEventListener('DOMContentLoaded', function () {
-    for (var i = 0; i < 5; i++) {
-      renderResults(searchData.placesSearchResults);
-    }
-  });
-}
+// if (searchData != null) {
+//   window.addEventListener('DOMContentLoaded', function () {
+//     for (var i = 0; i < 5; i++) {
+//       renderResults(searchData.placesSearchResults);
+//     }
+//   });
+// }
 
 function resetSearchDisplay() {
+  var displayedResults = document.querySelectorAll('.venue-card');
   for (var i = 0; i < 5; i++) {
     displayedResults[i].textContent = '';
   }
