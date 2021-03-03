@@ -73,7 +73,6 @@ $searchButton.addEventListener('click', function (event) {
 });
 
 $back.addEventListener('click', function (event) {
-  favoritesData.display = 'home';
   localStorage.removeItem('search-results');
   searchData = {
     userInput: {},
@@ -168,13 +167,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
       var renderedResult = renderResult(searchData.placesSearchResults[i]);
       $parent.prepend(renderedResult);
     }
-    for (var i = 0; i < 5; i++) {
-      checkFavorites(searchData.placesSearchResults[i]);
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      checkFavorites(favoritesData.favorites[i]);
     }
   } else if (favoritesData.display === 'home') {
     $searchBar.className = 'search';
     $astronomyData.className = 'hidden';
     $recs.className = 'hidden';
+    console.log('home page displayed');
   } else if (favoritesData.display === 'search') {
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
@@ -207,13 +207,12 @@ window.addEventListener('DOMContentLoaded', function (event) {
   });
 });
 
-function checkFavorites(result) {
+function checkFavorites(favorite) {
   var $likeButtons = document.querySelectorAll('.fa-heart.like');
   if (favoritesData.favorites.length !== 0) {
-    for (var i = 0; i < favoritesData.favorites.length; i++) {
-      if (result.id === favoritesData.favorites[i].id) {
+    for (var i = 0; i < 5; i++) {
+      if ($likeButtons[i].getAttribute('result-id') === favorite.id) {
         $likeButtons[i].className = 'fas fa-heart like';
-        // $likeButtons[searchData.placesSearchResults.indexOf()].className = 'fas fa-heart like';
       }
     }
   }
