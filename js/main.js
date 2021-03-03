@@ -128,7 +128,11 @@ function renderResult(result) {
   venueDiv.setAttribute('venue-id', result.id);
   var like = document.createElement('i');
   like.setAttribute('result-id', result.id);
-  like.setAttribute('class', 'far fa-heart like');
+  if (favoritesData.display === 'favorites') {
+    like.setAttribute('class', 'fas fa-heart like');
+  } else {
+    like.setAttribute('class', 'far fa-heart like');
+  }
   venueDiv.appendChild(like);
   var infoName = document.createElement('p');
   infoName.setAttribute('class', 'venue-info');
@@ -209,6 +213,7 @@ function checkFavorites(favorite) {
 
 var $navHeart = document.querySelector('.nav-icon.heart');
 $navHeart.addEventListener('click', function (event) {
+  $parent.innerText = ' ';
   favoritesData.display = 'favorites';
   $astronomyData.className = 'hidden';
   $searchBar.className = 'hidden';
