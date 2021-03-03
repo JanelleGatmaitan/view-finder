@@ -149,16 +149,6 @@ function renderResult(result) {
 }
 
 window.addEventListener('DOMContentLoaded', function (event) {
-  // if (favoritesData.favorites.length !== 0 && favoritesData.display === 'search') {
-  //   for (var i = 0; i < 5; i++) {
-  //     checkFavorites(searchData.placesSearchResults[i]);
-  //   }
-  // }
-  // // if (favoritesData.favorites.length !== 0) {
-  // //   for (var i = 0; i < 5; i++) {
-  // //     checkFavorites(searchData.placesSearchResults[i]);
-  // //   }
-  // // }
   if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
@@ -180,7 +170,6 @@ window.addEventListener('DOMContentLoaded', function (event) {
     $astronomyData.className = 'astronomy-data';
     $recs.className = 'results';
     for (var i = 0; i < 5; i++) {
-      // renderResult(searchData.placesSearchResults[i]);
       var renderedResult = renderResult(searchData.placesSearchResults[i]);
       $parent.prepend(renderedResult);
     }
