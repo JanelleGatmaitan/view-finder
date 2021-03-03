@@ -2,7 +2,7 @@ var $searchButton = document.querySelector('.search-button');
 var $input = document.querySelector('input');
 var $searchBar = document.querySelector('.search');
 var $astronomyData = document.querySelector('.astronomy-data');
-var $recs = document.querySelector('.results');
+// var $parent = document.querySelector('.results');
 var $back = document.querySelector('.back');
 var $city = document.querySelector('.city');
 var $currentTime = document.querySelector('.current-time');
@@ -64,7 +64,7 @@ $searchButton.addEventListener('click', function (event) {
   splitUserInput(searchData.userInput);
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
-  $recs.className = 'results';
+  $parent.className = 'results';
   getAstronomyLocationParam();
   getAstronomyData();
   getPlacesData();
@@ -86,7 +86,7 @@ $back.addEventListener('click', function (event) {
   favoritesData.display = 'home';
   $searchBar.className = 'search';
   $astronomyData.className = 'hidden';
-  $recs.className = 'hidden';
+  $parent.className = 'hidden';
 });
 
 function getPlacesData() {
@@ -144,7 +144,7 @@ function renderResult(result) {
   photo.setAttribute('class', 'row');
   photo.setAttribute('src', result.photoUrl);
   venueDiv.appendChild(photo);
-  $recs.appendChild(venueDiv);
+  $parent.appendChild(venueDiv);
   return venueDiv;
 }
 
@@ -152,7 +152,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
   if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
-    $recs.className = 'results';
+    $parent.className = 'results';
     for (var i = 0; i < 5; i++) {
       var renderedResult = renderResult(searchData.placesSearchResults[i]);
       $parent.prepend(renderedResult);
@@ -163,12 +163,12 @@ window.addEventListener('DOMContentLoaded', function (event) {
   } else if (favoritesData.display === 'home') {
     $searchBar.className = 'search';
     $astronomyData.className = 'hidden';
-    $recs.className = 'hidden';
+    $parent.className = 'hidden';
     console.log('home page displayed');
   } else if (favoritesData.display === 'search') {
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
-    $recs.className = 'results';
+    $parent.className = 'results';
     for (var i = 0; i < 5; i++) {
       var renderedResult = renderResult(searchData.placesSearchResults[i]);
       $parent.prepend(renderedResult);
@@ -206,3 +206,16 @@ function checkFavorites(favorite) {
     }
   }
 }
+
+var $navHeart = document.querySelector('.nav-icon.heart');
+$navHeart.addEventListener('click', function (event) {
+  favoritesData.display = 'favorites';
+  $astronomyData.className = 'hidden';
+  $searchBar.className = 'hidden';
+  $parent.innerText = ' ';
+  console.log('favoritesData.favorites:', favoritesData.favorites);
+});
+
+// function viewSwap() {
+
+// }
