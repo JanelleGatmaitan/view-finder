@@ -212,8 +212,12 @@ $navHeart.addEventListener('click', function (event) {
   favoritesData.display = 'favorites';
   $astronomyData.className = 'hidden';
   $searchBar.className = 'hidden';
-  $parent.innerText = ' ';
   console.log('favoritesData.favorites:', favoritesData.favorites);
+  for (var i = 0; i < favoritesData.favorites.length; i++) {
+    var favorite = renderResult(favoritesData.favorites[i]);
+    $parent.prepend(favorite);
+  }
+  $parent.className = 'results';
 });
 
 // function viewSwap() {
