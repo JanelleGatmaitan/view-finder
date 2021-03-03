@@ -2,13 +2,13 @@ var $searchButton = document.querySelector('.search-button');
 var $input = document.querySelector('input');
 var $searchBar = document.querySelector('.search');
 var $astronomyData = document.querySelector('.astronomy-data');
-// var $parent = document.querySelector('.results');
 var $back = document.querySelector('.back');
 var $city = document.querySelector('.city');
 var $currentTime = document.querySelector('.current-time');
 var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
 var $parent = document.querySelector('.results');
+var $heading = document.querySelector('h4.text-large');
 
 if (searchData !== null) {
   $city.textContent = searchData.userInput.unsplit;
@@ -56,6 +56,7 @@ function getAstronomyLocationParam() {
 }
 
 $searchButton.addEventListener('click', function (event) {
+  $heading.textContent = 'View Points';
   if (favoritesData.newSearch) {
     $parent.innerText = ' ';
   }
@@ -154,6 +155,7 @@ function renderResult(result) {
 
 window.addEventListener('DOMContentLoaded', function (event) {
   if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
+    $heading.textContent = 'View Points';
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
     $parent.className = 'results';
@@ -165,6 +167,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
       checkFavorites(favoritesData.favorites[i]);
     }
   } else if (favoritesData.display === 'home') {
+    $heading.className = 'hidden';
     $searchBar.className = 'search';
     $astronomyData.className = 'hidden';
     $parent.className = 'hidden';
@@ -213,6 +216,7 @@ function checkFavorites(favorite) {
 
 var $navHeart = document.querySelector('.nav-icon.heart');
 $navHeart.addEventListener('click', function (event) {
+  $heading.textContent = 'Favorites';
   $parent.innerText = ' ';
   favoritesData.display = 'favorites';
   $astronomyData.className = 'hidden';
