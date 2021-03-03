@@ -147,22 +147,28 @@ function renderResult(result) {
   photo.setAttribute('src', result.photoUrl);
   venueDiv.appendChild(photo);
   $recs.appendChild(venueDiv);
-  if (favoritesData.favorites.length !== 0) {
-    for (var i = 0; i < favoritesData.favorites.length; i++) {
-      if (result.id === favoritesData.favorites[i].id) {
-        like.setAttribute('class', 'fas fa-heart like');
-      }
-    }
-  }
 }
 
 window.addEventListener('DOMContentLoaded', function (event) {
+  // if (favoritesData.favorites.length !== 0 && favoritesData.display === 'search') {
+  //   for (var i = 0; i < 5; i++) {
+  //     checkFavorites(searchData.placesSearchResults[i]);
+  //   }
+  // }
+  // // if (favoritesData.favorites.length !== 0) {
+  // //   for (var i = 0; i < 5; i++) {
+  // //     checkFavorites(searchData.placesSearchResults[i]);
+  // //   }
+  // // }
   if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
     $recs.className = 'results';
     for (var i = 0; i < 5; i++) {
       renderResult(searchData.placesSearchResults[i]);
+    }
+    for (var i = 0; i < 5; i++) {
+      checkFavorites(searchData.placesSearchResults[i]);
     }
   } else if (favoritesData.display === 'home') {
     $searchBar.className = 'search';
@@ -194,23 +200,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
     }
   });
 });
-// if (favoritesData.favorites.length !== 0) {
-//   for (var i = 0; i < favoritesData.favorites.length; i++) {
-//     if (result.id === favoritesData.favorites[i].id) {
-//       like.setAttribute('class', 'fas fa-heart like');
-//     } else {
-//       like.setAttribute('class', 'far fa-heart like');
-//     }
-//   }
-// } else {
-//   like.setAttribute('class', 'far fa-heart like');
-// }
-// function checkFavorites(result, target) {
-//   for (var i = 0; favoritesData.favorites.length; i++) {
-//     if (result.id === favoritesData.favorites[i].id) {
-//       target.className = 'fas fa-heart like';
-//     } else {
-//       target.className = 'far fa-heart like';
-//     }
-//   }
-// }
+
+function checkFavorites(result) {
+  var $likeButtons = document.querySelectorAll('.fa-heart.like');
+  if (favoritesData.favorites.length !== 0) {
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      if (result.id === favoritesData.favorites[i].id) {
+        $likeButtons[i].className = 'fas fa-heart like';
+      }
+    }
+  }
+}
