@@ -118,8 +118,7 @@ function getPlacesPhotoData(result) {
     var suffix = xhr.response.response.photos.items[0].suffix;
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
-    var renderedResult = renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
-    $parent.prepend(renderedResult);
+    renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
   });
   xhr.send();
 }
@@ -170,7 +169,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
       $parent.prepend(renderedResult);
     }
     for (var i = 0; i < 5; i++) {
-      setTimeout(checkFavorites(searchData.placesSearchResults[i]), 2000);
+      checkFavorites(searchData.placesSearchResults[i]);
     }
   } else if (favoritesData.display === 'home') {
     $searchBar.className = 'search';
@@ -181,7 +180,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
     $astronomyData.className = 'astronomy-data';
     $recs.className = 'results';
     for (var i = 0; i < 5; i++) {
-      renderResult(searchData.placesSearchResults[i]);
+      // renderResult(searchData.placesSearchResults[i]);
+      var renderedResult = renderResult(searchData.placesSearchResults[i]);
+      $parent.prepend(renderedResult);
     }
   }
   $parent.addEventListener('click', function (event) {
@@ -190,16 +191,16 @@ window.addEventListener('DOMContentLoaded', function (event) {
       console.log('event.target: ', event.target);
       for (var i = 0; i < 5; i++) {
         if (event.target.getAttribute('result-id') === searchData.placesSearchResults[i].id) {
-          console.log('favorited!');
           favoritesData.favorites.push(searchData.placesSearchResults[i]);
+          console.log('favorited!', favoritesData);
         }
       }
     } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like') {
       event.target.className = 'far fa-heart like';
       for (var i = 0; i < 5; i++) {
         if (event.target.getAttribute('result-id') === searchData.placesSearchResults[i].id) {
-          console.log('unfavorited!');
           favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
+          console.log('unfavorited!', favoritesData);
         }
       }
     }
