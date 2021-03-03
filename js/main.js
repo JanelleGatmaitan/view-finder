@@ -129,8 +129,8 @@ function renderResult(result) {
   venueDiv.setAttribute('class', 'venue-card');
   venueDiv.setAttribute('venue-id', result.id);
   var like = document.createElement('i');
-  like.setAttribute('class', 'far fa-heart like');
   like.setAttribute('result-id', result.id);
+  like.setAttribute('class', 'far fa-heart like');
   venueDiv.appendChild(like);
   var infoName = document.createElement('p');
   infoName.setAttribute('class', 'venue-info');
@@ -147,10 +147,17 @@ function renderResult(result) {
   photo.setAttribute('src', result.photoUrl);
   venueDiv.appendChild(photo);
   $recs.appendChild(venueDiv);
+  if (favoritesData.favorites.length !== 0) {
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      if (result.id === favoritesData.favorites[i].id) {
+        like.setAttribute('class', 'fas fa-heart like');
+      }
+    }
+  }
 }
 
 window.addEventListener('DOMContentLoaded', function (event) {
-  if (favoritesData.display === 'search') {
+  if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
     $recs.className = 'results';
@@ -161,6 +168,10 @@ window.addEventListener('DOMContentLoaded', function (event) {
     $searchBar.className = 'search';
     $astronomyData.className = 'hidden';
     $recs.className = 'hidden';
+  } else if (favoritesData.display === 'search') {
+    $searchBar.className = 'hidden';
+    $astronomyData.className = 'astronomy-data';
+    $recs.className = 'results';
   }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
@@ -183,3 +194,23 @@ window.addEventListener('DOMContentLoaded', function (event) {
     }
   });
 });
+// if (favoritesData.favorites.length !== 0) {
+//   for (var i = 0; i < favoritesData.favorites.length; i++) {
+//     if (result.id === favoritesData.favorites[i].id) {
+//       like.setAttribute('class', 'fas fa-heart like');
+//     } else {
+//       like.setAttribute('class', 'far fa-heart like');
+//     }
+//   }
+// } else {
+//   like.setAttribute('class', 'far fa-heart like');
+// }
+// function checkFavorites(result, target) {
+//   for (var i = 0; favoritesData.favorites.length; i++) {
+//     if (result.id === favoritesData.favorites[i].id) {
+//       target.className = 'fas fa-heart like';
+//     } else {
+//       target.className = 'far fa-heart like';
+//     }
+//   }
+// }
