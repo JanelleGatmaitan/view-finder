@@ -105,7 +105,6 @@ function getPlacesData() {
     }
   });
   xhr.send();
-
 }
 
 function getPlacesPhotoData(result) {
@@ -119,7 +118,8 @@ function getPlacesPhotoData(result) {
     var suffix = xhr.response.response.photos.items[0].suffix;
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
-    renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
+    var renderedResult = renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
+    $parent.prepend(renderedResult);
   });
   xhr.send();
 }
@@ -147,6 +147,7 @@ function renderResult(result) {
   photo.setAttribute('src', result.photoUrl);
   venueDiv.appendChild(photo);
   $recs.appendChild(venueDiv);
+  return venueDiv;
 }
 
 window.addEventListener('DOMContentLoaded', function (event) {
@@ -165,10 +166,11 @@ window.addEventListener('DOMContentLoaded', function (event) {
     $astronomyData.className = 'astronomy-data';
     $recs.className = 'results';
     for (var i = 0; i < 5; i++) {
-      renderResult(searchData.placesSearchResults[i]);
+      var renderedResult = renderResult(searchData.placesSearchResults[i]);
+      $parent.prepend(renderedResult);
     }
     for (var i = 0; i < 5; i++) {
-      checkFavorites(searchData.placesSearchResults[i]);
+      setTimeout(checkFavorites(searchData.placesSearchResults[i]), 2000);
     }
   } else if (favoritesData.display === 'home') {
     $searchBar.className = 'search';
@@ -178,6 +180,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
     $recs.className = 'results';
+    for (var i = 0; i < 5; i++) {
+      renderResult(searchData.placesSearchResults[i]);
+    }
   }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
@@ -207,6 +212,7 @@ function checkFavorites(result) {
     for (var i = 0; i < favoritesData.favorites.length; i++) {
       if (result.id === favoritesData.favorites[i].id) {
         $likeButtons[i].className = 'fas fa-heart like';
+        // $likeButtons[searchData.placesSearchResults.indexOf()].className = 'fas fa-heart like';
       }
     }
   }
