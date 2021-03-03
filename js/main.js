@@ -130,6 +130,7 @@ function renderResult(result) {
   venueDiv.setAttribute('venue-id', result.id);
   var like = document.createElement('i');
   like.setAttribute('class', 'far fa-heart like heart');
+  like.setAttribute('result-id', result.id);
   venueDiv.appendChild(like);
   var infoName = document.createElement('p');
   infoName.setAttribute('class', 'venue-info');
@@ -164,7 +165,13 @@ window.addEventListener('DOMContentLoaded', function (event) {
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like')) {
       event.target.className = 'fas fa-heart like';
-      console.log('item has been favorited');
+      console.log('event.target: ', event.target);
+      for (var i = 0; i < 5; i++) {
+        if (event.target.getAttribute('result-id') === searchData.placesSearchResults[i].id) {
+          console.log('match!');
+          favoritesData.favorites.push(searchData.placesSearchResults[i]);
+        }
+      }
     }
   });
 });
