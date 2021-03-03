@@ -163,6 +163,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
   }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like')) {
+      event.target.className = 'fas fa-heart like';
       console.log('item has been favorited');
     }
   });
