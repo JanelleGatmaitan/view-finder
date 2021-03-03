@@ -129,7 +129,7 @@ function renderResult(result) {
   venueDiv.setAttribute('class', 'venue-card');
   venueDiv.setAttribute('venue-id', result.id);
   var like = document.createElement('i');
-  like.setAttribute('class', 'far fa-heart like heart');
+  like.setAttribute('class', 'far fa-heart like');
   like.setAttribute('result-id', result.id);
   venueDiv.appendChild(like);
   var infoName = document.createElement('p');
@@ -163,7 +163,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
     $recs.className = 'hidden';
   }
   $parent.addEventListener('click', function (event) {
-    if (event.target && event.target.matches('i.like')) {
+    if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
       event.target.className = 'fas fa-heart like';
       console.log('event.target: ', event.target);
       for (var i = 0; i < 5; i++) {
