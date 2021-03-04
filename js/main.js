@@ -257,6 +257,7 @@ function favorite() {
       if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
         favoritesData.favorites.push(searchData.placesSearchResults[i]);
         console.log('favorited!', favoritesData);
+        break;
       }
     }
   } else {
@@ -266,17 +267,30 @@ function favorite() {
       if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
         favoritesData.favorites.push(favoritesData.favorites[i].id);
         console.log('favorited!', favoritesData);
+        break;
       }
     }
   }
 }
 
 function unfavorite() {
-  event.target.className = 'far fa-heart like';
-  for (var i = 0; i < 5; i++) {
-    if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-      favoritesData.favorites.pop(searchData.placesSearchResults[i], 1);
-      console.log('unfavorited!', favoritesData);
+  if (favoritesData.display === 'search') {
+    event.target.className = 'far fa-heart like';
+    for (var i = 0; i < 5; i++) {
+      if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
+        favoritesData.favorites.pop(searchData.placesSearchResults[i], 1);
+        console.log('unfavorited!', favoritesData);
+        break;
+      }
+    }
+  } else {
+    event.target.className = 'far fa-heart like';
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
+        favoritesData.favorites.pop(favoritesData.favorites[i].id, 1);
+        console.log('unfavorited!', favoritesData);
+        break;
+      }
     }
   }
 }
