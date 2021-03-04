@@ -55,16 +55,15 @@ $searchButton.addEventListener('click', function (event) {
   }
   searchData.userInput.unsplit = $input.value;
   splitUserInput(searchData.userInput);
-  // $searchBar.className = 'hidden';
-  // $astronomyData.className = 'astronomy-data';
-  // $parent.className = 'results';
+  favoritesData.display = 'search';
+  $searchBar.className = 'hidden';
+  $astronomyData.className = 'astronomy-data';
+  $parent.className = 'results';
   getAstronomyLocationParam();
   getAstronomyData();
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
   favoritesData.newSearch = true;
-  favoritesData.display = 'search';
-  viewSwap();
 });
 
 $back.addEventListener('click', function (event) {
@@ -256,21 +255,13 @@ function favorite() {
 }
 
 function unfavorite() {
-  if (favoritesData.display === 'search') {
-    event.target.className = 'far fa-heart like';
-    for (var i = 0; i < 5; i++) {
-      if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-        favoritesData.favorites.pop(searchData.placesSearchResults[i], 1);
-        break;
-      }
-    }
-  } else {
-    event.target.className = 'far fa-heart like';
-    for (var i = 0; i < favoritesData.favorites.length; i++) {
-      if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
-        favoritesData.favorites.pop(favoritesData.favorites[i].id, 1);
-        break;
-      }
+  event.target.className = 'far fa-heart like';
+  for (var i = 0; i < favoritesData.favorites.length; i++) {
+    if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
+      var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[i]);
+      favoritesData.favorites.splice(unfavorited, 1);
+      console.log('favorites', favoritesData.favorites);
+      break;
     }
   }
 }
