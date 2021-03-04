@@ -182,7 +182,7 @@ function initialCheckFavorites(searchResult) {
 }
 
 var $navHeart = document.querySelector('.nav-icon.heart');
-var displayedFavorites = initialFavoritesDisplayed();
+var initialFavorites = initialFavoritesDisplayed();
 $navHeart.addEventListener('click', function (event) {
   $heading.className = 'text-large';
   $heading.textContent = 'Favorites';
@@ -221,6 +221,7 @@ function viewSwap() {
       $parent.prepend(renderedResult);
     }
   } else if (favoritesData.display === 'favorites') {
+    initialFavoritesDisplayed();
     $heading.className = 'text-large';
     $heading.textContent = 'Favorites';
     $parent.innerText = ' ';
@@ -247,7 +248,8 @@ function favorite() {
       }
     }
   } else {
-    favoriteAgain(displayedFavorites);
+    console.log('displayedFavorites: ', displayedFavorites);
+    favoriteAgain(initialFavorites);
   }
 }
 
@@ -264,7 +266,8 @@ function unfavorite() {
 }
 
 function initialFavoritesDisplayed() {
-  return favoritesData.favorites;
+  var displayedFavorites = favoritesData.favorites;
+  return displayedFavorites;
 }
 
 function favoriteAgain(initialFavorites) {
@@ -274,4 +277,5 @@ function favoriteAgain(initialFavorites) {
       console.log('favorited!', favoritesData.favorites);
       break;
     }
+  }
 }
