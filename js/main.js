@@ -275,7 +275,7 @@ function unfavorite() {
   event.target.className = 'far fa-heart like';
   for (var i = 0; i < 5; i++) {
     if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-      favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
+      favoritesData.favorites.pop(searchData.placesSearchResults[i], 1);
       console.log('unfavorited!', favoritesData);
     }
   }
