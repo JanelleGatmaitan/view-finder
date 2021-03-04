@@ -53,17 +53,18 @@ $searchButton.addEventListener('click', function (event) {
   if (favoritesData.newSearch) {
     $parent.innerText = ' ';
   }
-  favoritesData.display = 'search';
   searchData.userInput.unsplit = $input.value;
   splitUserInput(searchData.userInput);
-  $searchBar.className = 'hidden';
-  $astronomyData.className = 'astronomy-data';
-  $parent.className = 'results';
+  // $searchBar.className = 'hidden';
+  // $astronomyData.className = 'astronomy-data';
+  // $parent.className = 'results';
   getAstronomyLocationParam();
   getAstronomyData();
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
   favoritesData.newSearch = true;
+  favoritesData.display = 'search';
+  viewSwap();
 });
 
 $back.addEventListener('click', function (event) {
@@ -113,7 +114,6 @@ function getPlacesPhotoData(result) {
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
     var renderedResult = renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
-    console.log('renderedResult', renderedResult);
     initialCheckFavorites(renderedResult);
   });
   xhr.send();
@@ -188,14 +188,7 @@ $navHeart.addEventListener('click', function (event) {
   $heading.textContent = 'Favorites';
   $parent.innerText = ' ';
   favoritesData.display = 'favorites';
-  $astronomyData.className = 'hidden';
-  $searchBar.className = 'hidden';
-  console.log('favoritesData.favorites:', favoritesData.favorites);
-  for (var i = 0; i < favoritesData.favorites.length; i++) {
-    var favorite = renderResult(favoritesData.favorites[i]);
-    $parent.prepend(favorite);
-  }
-  $parent.className = 'results';
+  viewSwap();
 });
 
 function viewSwap() {
@@ -219,7 +212,6 @@ function viewSwap() {
     $searchBar.className = 'search';
     $astronomyData.className = 'hidden';
     $parent.className = 'hidden';
-    console.log('home page displayed');
   } else if (favoritesData.display === 'search') {
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
@@ -235,7 +227,6 @@ function viewSwap() {
     favoritesData.display = 'favorites';
     $astronomyData.className = 'hidden';
     $searchBar.className = 'hidden';
-    console.log('favoritesData.favorites:', favoritesData.favorites);
     for (var i = 0; i < favoritesData.favorites.length; i++) {
       var favorite = renderResult(favoritesData.favorites[i]);
       $parent.prepend(favorite);
@@ -247,21 +238,17 @@ function viewSwap() {
 function favorite() {
   if (favoritesData.display === 'search') {
     event.target.className = 'fas fa-heart like';
-    console.log('event.target: ', event.target);
     for (var i = 0; i < 5; i++) {
       if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
         favoritesData.favorites.push(searchData.placesSearchResults[i]);
-        console.log('favorited!', favoritesData);
         break;
       }
     }
   } else {
     event.target.className = 'fas fa-heart like';
-    console.log('event.target: ', event.target);
     for (var i = 0; i < favoritesData.favorites.length; i++) {
       if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
         favoritesData.favorites.push(favoritesData.favorites[i].id);
-        console.log('favorited!', favoritesData);
         break;
       }
     }
@@ -274,7 +261,6 @@ function unfavorite() {
     for (var i = 0; i < 5; i++) {
       if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
         favoritesData.favorites.pop(searchData.placesSearchResults[i], 1);
-        console.log('unfavorited!', favoritesData);
         break;
       }
     }
@@ -283,7 +269,6 @@ function unfavorite() {
     for (var i = 0; i < favoritesData.favorites.length; i++) {
       if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
         favoritesData.favorites.pop(favoritesData.favorites[i].id, 1);
-        console.log('unfavorited!', favoritesData);
         break;
       }
     }
