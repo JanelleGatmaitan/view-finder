@@ -64,9 +64,9 @@ $searchButton.addEventListener('click', function (event) {
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
   favoritesData.newSearch = true;
-  for (var i = 0; i < favoritesData.favorites.length; i++) {
-    checkFavorites(favoritesData.favorites[i]);
-  }
+  // for (var i = 0; i < favoritesData.favorites.length; i++) {
+  //   checkFavorites(favoritesData.favorites[i]);
+  // }
 });
 
 $back.addEventListener('click', function (event) {
@@ -164,13 +164,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
       // }
       favorite();
     } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like') {
-      event.target.className = 'far fa-heart like';
-      for (var i = 0; i < 5; i++) {
-        if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-          favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
-          console.log('unfavorited!', favoritesData);
-        }
-      }
+      // event.target.className = 'far fa-heart like';
+      // for (var i = 0; i < 5; i++) {
+      //   if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
+      //     favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
+      //     console.log('unfavorited!', favoritesData);
+      //   }
+      // }
+      unfavorite();
     }
   });
 });
@@ -257,6 +258,25 @@ function favorite() {
         favoritesData.favorites.push(searchData.placesSearchResults[i]);
         console.log('favorited!', favoritesData);
       }
+    }
+  } else {
+    event.target.className = 'fas fa-heart like';
+    console.log('event.target: ', event.target);
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
+        favoritesData.favorites.push(favoritesData.favorites[i].id);
+        console.log('favorited!', favoritesData);
+      }
+    }
+  }
+}
+
+function unfavorite() {
+  event.target.className = 'far fa-heart like';
+  for (var i = 0; i < 5; i++) {
+    if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
+      favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
+      console.log('unfavorited!', favoritesData);
     }
   }
 }
