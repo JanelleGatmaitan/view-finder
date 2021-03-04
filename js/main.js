@@ -155,6 +155,96 @@ function renderResult(result) {
 }
 
 window.addEventListener('DOMContentLoaded', function (event) {
+  viewSwap();
+  // if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
+  //   $heading.textContent = 'View Points';
+  //   $searchBar.className = 'hidden';
+  //   $astronomyData.className = 'astronomy-data';
+  //   $parent.className = 'results';
+  //   for (var i = 0; i < 5; i++) {
+  //     var renderedResult = renderResult(searchData.placesSearchResults[i]);
+  //     $parent.prepend(renderedResult);
+  //   }
+  //   for (var i = 0; i < favoritesData.favorites.length; i++) {
+  //     checkFavorites(favoritesData.favorites[i]);
+  //   }
+  // } else if (favoritesData.display === 'home') {
+  //   $searchBar.className = 'search';
+  //   $astronomyData.className = 'hidden';
+  //   $parent.className = 'hidden';
+  //   console.log('home page displayed');
+  // } else if (favoritesData.display === 'search') {
+  //   $searchBar.className = 'hidden';
+  //   $astronomyData.className = 'astronomy-data';
+  //   $parent.className = 'results';
+  //   for (var i = 0; i < 5; i++) {
+  //     var renderedResult = renderResult(searchData.placesSearchResults[i]);
+  //     $parent.prepend(renderedResult);
+  //   }
+  // } else if (favoritesData.display === 'favorites') {
+  //   $heading.className = 'text-large';
+  //   $heading.textContent = 'Favorites';
+  //   $parent.innerText = ' ';
+  //   favoritesData.display = 'favorites';
+  //   $astronomyData.className = 'hidden';
+  //   $searchBar.className = 'hidden';
+  //   console.log('favoritesData.favorites:', favoritesData.favorites);
+  //   for (var i = 0; i < favoritesData.favorites.length; i++) {
+  //     var favorite = renderResult(favoritesData.favorites[i]);
+  //     $parent.prepend(favorite);
+  //   }
+  //   $parent.className = 'results';
+  // }
+  $parent.addEventListener('click', function (event) {
+    if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
+      event.target.className = 'fas fa-heart like';
+      console.log('event.target: ', event.target);
+      for (var i = 0; i < 5; i++) {
+        if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
+          favoritesData.favorites.push(searchData.placesSearchResults[i]);
+          console.log('favorited!', favoritesData);
+        }
+      }
+    } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like') {
+      event.target.className = 'far fa-heart like';
+      for (var i = 0; i < 5; i++) {
+        if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
+          favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
+          console.log('unfavorited!', favoritesData);
+        }
+      }
+    }
+  });
+});
+
+function checkFavorites(favorite) {
+  var $likeButtons = document.querySelectorAll('.fa-heart.like');
+  if (favoritesData.favorites.length !== 0 && favoritesData.display === 'search') {
+    for (var i = 0; i < 5; i++) {
+      if ($likeButtons[i].getAttribute('venue-id') === favorite.id) {
+        $likeButtons[i].className = 'fas fa-heart like';
+      }
+    }
+  }
+}
+
+var $navHeart = document.querySelector('.nav-icon.heart');
+$navHeart.addEventListener('click', function (event) {
+  $heading.className = 'text-large';
+  $heading.textContent = 'Favorites';
+  $parent.innerText = ' ';
+  favoritesData.display = 'favorites';
+  $astronomyData.className = 'hidden';
+  $searchBar.className = 'hidden';
+  console.log('favoritesData.favorites:', favoritesData.favorites);
+  for (var i = 0; i < favoritesData.favorites.length; i++) {
+    var favorite = renderResult(favoritesData.favorites[i]);
+    $parent.prepend(favorite);
+  }
+  $parent.className = 'results';
+});
+
+function viewSwap() {
   if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
     $heading.textContent = 'View Points';
     $searchBar.className = 'hidden';
@@ -194,57 +284,6 @@ window.addEventListener('DOMContentLoaded', function (event) {
     }
     $parent.className = 'results';
   }
-  $parent.addEventListener('click', function (event) {
-    if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
-      event.target.className = 'fas fa-heart like';
-      console.log('event.target: ', event.target);
-      for (var i = 0; i < 5; i++) {
-        if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-          favoritesData.favorites.push(searchData.placesSearchResults[i]);
-          console.log('favorited!', favoritesData);
-        }
-      }
-    } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like') {
-      event.target.className = 'far fa-heart like';
-      for (var i = 0; i < 5; i++) {
-        if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-          favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
-          console.log('unfavorited!', favoritesData);
-        }
-      }
-    }
-  });
-});
-
-function checkFavorites(favorite) {
-  var $likeButtons = document.querySelectorAll('.fa-heart.like');
-  if (favoritesData.favorites.length !== 0) {
-    for (var i = 0; i < 5; i++) {
-      if ($likeButtons[i].getAttribute('venue-id') === favorite.id) {
-        $likeButtons[i].className = 'fas fa-heart like';
-      }
-    }
-  }
 }
-
-var $navHeart = document.querySelector('.nav-icon.heart');
-$navHeart.addEventListener('click', function (event) {
-  $heading.className = 'text-large';
-  $heading.textContent = 'Favorites';
-  $parent.innerText = ' ';
-  favoritesData.display = 'favorites';
-  $astronomyData.className = 'hidden';
-  $searchBar.className = 'hidden';
-  console.log('favoritesData.favorites:', favoritesData.favorites);
-  for (var i = 0; i < favoritesData.favorites.length; i++) {
-    var favorite = renderResult(favoritesData.favorites[i]);
-    $parent.prepend(favorite);
-  }
-  $parent.className = 'results';
-});
-
-// function viewSwap() {
-
-// }
 
 // if (favoritesData.display === 'favorites')
