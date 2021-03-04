@@ -182,7 +182,7 @@ function initialCheckFavorites(searchResult) {
 }
 
 var $navHeart = document.querySelector('.nav-icon.heart');
-var displayedFavorites = initialFavoritesDisplay();
+var displayedFavorites = initialFavoritesDisplayed();
 $navHeart.addEventListener('click', function (event) {
   $heading.className = 'text-large';
   $heading.textContent = 'Favorites';
@@ -236,6 +236,7 @@ function viewSwap() {
 }
 
 function favorite() {
+  event.target.className = 'fas fa-heart like';
   if (favoritesData.display === 'search') {
     event.target.className = 'fas fa-heart like';
     for (var i = 0; i < 5; i++) {
@@ -246,14 +247,7 @@ function favorite() {
       }
     }
   } else {
-    event.target.className = 'fas fa-heart like';
-    for (var i = 0; i < displayedFavorites.length; i++) {
-      if (event.target.getAttribute('venue-id') === displayedFavorites[i].id) {
-        favoritesData.favorites.push(displayedFavorites[i]);
-        console.log('favorited!', favoritesData.favorites);
-        break;
-      }
-    }
+    favoriteAgain(displayedFavorites);
   }
 }
 
@@ -269,6 +263,15 @@ function unfavorite() {
   }
 }
 
-function initialFavoritesDisplay() {
+function initialFavoritesDisplayed() {
   return favoritesData.favorites;
+}
+
+function favoriteAgain(initialFavorites) {
+  for (var i = 0; i < initialFavorites.length; i++) {
+    if (event.target.getAttribute('venue-id') === initialFavorites[i].id) {
+      favoritesData.favorites.push(initialFavorites[i]);
+      console.log('favorited!', favoritesData.favorites);
+      break;
+    }
 }
