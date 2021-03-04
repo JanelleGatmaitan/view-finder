@@ -115,10 +115,16 @@ function getPlacesPhotoData(result) {
     var renderedResult = renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
     // for (var i = 0; i < favoritesData.favorites.length; i++) {
     // if (favoritesData.favorites.length !== 0) {
-    console.log(renderedResult);
-    if (favoritesData.favorites.length !== 0) {
-      initialCheckFavorites(renderedResult);
-    }
+    // console.log(renderedResult);
+    // if (favoritesData.favorites.length !== 0) {
+    //   // var $likeButtons = document.querySelectorAll('.fa-heart.like');
+    //   for (var i = 0; i < 5; i++) {
+    //     initialCheckFavorites(searchData.placesSearchResults[i]);
+    //     // if (initialCheckFavorites(searchData.placesSearchResults[i])); {
+    //     //   $likeButtons[i].className = 'fas fa-heart like';
+    //     // }
+    //   }
+    // }
 
     // }
     // }
@@ -158,6 +164,12 @@ function renderResult(result) {
 
 window.addEventListener('DOMContentLoaded', function (event) {
   viewSwap();
+  if (favoritesData.favorites.length !== 0) {
+    // var $likeButtons = document.querySelectorAll('.fa-heart.like');
+    for (var i = 0; i < 5; i++) {
+      initialCheckFavorites(searchData.placesSearchResults[i]);
+    }
+  }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
       favorite();
@@ -179,14 +191,12 @@ function checkFavorites(favorite) {
   }
 }
 
-function initialCheckFavorites(result) {
+function initialCheckFavorites(searchResult) {
   var $likeButtons = document.querySelectorAll('.fa-heart.like');
-  if (favoritesData.favorites.length !== 0 && favoritesData.display === 'search') {
-    for (var i = 0; i < favoritesData.favorites.length; i++) {
-      if ($likeButtons[i].getAttribute('venue-id') === result.id) {
-        $likeButtons[searchData.placesSearchResults.indexOf(result)].className = 'fas fa-heart like';
-        break;
-      }
+  for (var i = 0; i < favoritesData.favorites.length; i++) {
+    if (favoritesData.favorites[i].id === searchResult.id) {
+      $likeButtons[searchData.placesSearchResults.indexOf(searchResult)].className = 'fas fa-heart like';
+      break;
     }
   }
 }
