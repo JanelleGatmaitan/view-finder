@@ -10,13 +10,6 @@ var $set = document.querySelector('.set');
 var $parent = document.querySelector('.results');
 var $heading = document.querySelector('h4');
 
-if (searchData !== null) {
-  $city.textContent = searchData.userInput.unsplit;
-  $currentTime.textContent = searchData.astroData.currentTime;
-  $rise.textContent = searchData.astroData.sunriseTime;
-  $set.textContent = searchData.astroData.sunsetTime;
-}
-
 function getAstronomyData() {
   var xhr = new XMLHttpRequest();
   var astronomyEndpoint = 'https://api.ipgeolocation.io/astronomy?apiKey=9602d1abf8594c91bffeea0723c636a8&location=';
@@ -71,6 +64,9 @@ $searchButton.addEventListener('click', function (event) {
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
   favoritesData.newSearch = true;
+  for (var i = 0; i < favoritesData.favorites.length; i++) {
+    checkFavorites(favoritesData.favorites[i]);
+  }
 });
 
 $back.addEventListener('click', function (event) {
@@ -156,55 +152,17 @@ function renderResult(result) {
 
 window.addEventListener('DOMContentLoaded', function (event) {
   viewSwap();
-  // if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
-  //   $heading.textContent = 'View Points';
-  //   $searchBar.className = 'hidden';
-  //   $astronomyData.className = 'astronomy-data';
-  //   $parent.className = 'results';
-  //   for (var i = 0; i < 5; i++) {
-  //     var renderedResult = renderResult(searchData.placesSearchResults[i]);
-  //     $parent.prepend(renderedResult);
-  //   }
-  //   for (var i = 0; i < favoritesData.favorites.length; i++) {
-  //     checkFavorites(favoritesData.favorites[i]);
-  //   }
-  // } else if (favoritesData.display === 'home') {
-  //   $searchBar.className = 'search';
-  //   $astronomyData.className = 'hidden';
-  //   $parent.className = 'hidden';
-  //   console.log('home page displayed');
-  // } else if (favoritesData.display === 'search') {
-  //   $searchBar.className = 'hidden';
-  //   $astronomyData.className = 'astronomy-data';
-  //   $parent.className = 'results';
-  //   for (var i = 0; i < 5; i++) {
-  //     var renderedResult = renderResult(searchData.placesSearchResults[i]);
-  //     $parent.prepend(renderedResult);
-  //   }
-  // } else if (favoritesData.display === 'favorites') {
-  //   $heading.className = 'text-large';
-  //   $heading.textContent = 'Favorites';
-  //   $parent.innerText = ' ';
-  //   favoritesData.display = 'favorites';
-  //   $astronomyData.className = 'hidden';
-  //   $searchBar.className = 'hidden';
-  //   console.log('favoritesData.favorites:', favoritesData.favorites);
-  //   for (var i = 0; i < favoritesData.favorites.length; i++) {
-  //     var favorite = renderResult(favoritesData.favorites[i]);
-  //     $parent.prepend(favorite);
-  //   }
-  //   $parent.className = 'results';
-  // }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
-      event.target.className = 'fas fa-heart like';
-      console.log('event.target: ', event.target);
-      for (var i = 0; i < 5; i++) {
-        if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-          favoritesData.favorites.push(searchData.placesSearchResults[i]);
-          console.log('favorited!', favoritesData);
-        }
-      }
+      // event.target.className = 'fas fa-heart like';
+      // console.log('event.target: ', event.target);
+      // for (var i = 0; i < 5; i++) {
+      //   if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
+      //     favoritesData.favorites.push(searchData.placesSearchResults[i]);
+      //     console.log('favorited!', favoritesData);
+      //   }
+      // }
+      favorite();
     } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like') {
       event.target.className = 'far fa-heart like';
       for (var i = 0; i < 5; i++) {
@@ -246,6 +204,10 @@ $navHeart.addEventListener('click', function (event) {
 
 function viewSwap() {
   if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
+    $city.textContent = searchData.userInput.unsplit;
+    $currentTime.textContent = searchData.astroData.currentTime;
+    $rise.textContent = searchData.astroData.sunriseTime;
+    $set.textContent = searchData.astroData.sunsetTime;
     $heading.textContent = 'View Points';
     $searchBar.className = 'hidden';
     $astronomyData.className = 'astronomy-data';
@@ -286,4 +248,15 @@ function viewSwap() {
   }
 }
 
-// if (favoritesData.display === 'favorites')
+function favorite() {
+  if (favoritesData.display === 'search') {
+    event.target.className = 'fas fa-heart like';
+    console.log('event.target: ', event.target);
+    for (var i = 0; i < 5; i++) {
+      if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
+        favoritesData.favorites.push(searchData.placesSearchResults[i]);
+        console.log('favorited!', favoritesData);
+      }
+    }
+  }
+}
