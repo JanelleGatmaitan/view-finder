@@ -112,10 +112,12 @@ function getPlacesPhotoData(result) {
     var suffix = xhr.response.response.photos.items[0].suffix;
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
-    renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
-    for (var i = 0; i < favoritesData.favorites.length; i++) {
-      checkFavorites(favoritesData.favorites[i]);
-    }
+    var renderedResult = renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
+    // for (var i = 0; i < favoritesData.favorites.length; i++) {
+    // if (favoritesData.favorites.length !== 0) {
+    checkFavorites(renderedResult);
+    // }
+    // }
   });
   xhr.send();
 }
@@ -161,12 +163,25 @@ window.addEventListener('DOMContentLoaded', function (event) {
   });
 });
 
-function checkFavorites(favorite) {
+// function checkFavorites(favorite) {
+//   var $likeButtons = document.querySelectorAll('.fa-heart.like');
+//   if (favoritesData.favorites.length !== 0 && favoritesData.display === 'search') {
+//     for (var i = 0; i < 5; i++) {
+//       if ($likeButtons[i].getAttribute('venue-id') === favorite.id) {
+//         $likeButtons[i].className = 'fas fa-heart like';
+//         break;
+//       }
+//     }
+//   }
+// }
+
+function checkFavorites(result) {
   var $likeButtons = document.querySelectorAll('.fa-heart.like');
   if (favoritesData.favorites.length !== 0 && favoritesData.display === 'search') {
-    for (var i = 0; i < 5; i++) {
-      if ($likeButtons[i].getAttribute('venue-id') === favorite.id) {
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      if ($likeButtons[i].getAttribute('venue-id') === result.id) {
         $likeButtons[i].className = 'fas fa-heart like';
+        break;
       }
     }
   }
@@ -202,8 +217,8 @@ function viewSwap() {
       var renderedResult = renderResult(searchData.placesSearchResults[i]);
       $parent.prepend(renderedResult);
     }
-    for (var i = 0; i < favoritesData.favorites.length; i++) {
-      checkFavorites(favoritesData.favorites[i]);
+    for (var i = 0; i < 5; i++) {
+      checkFavorites(searchData.placesSearchResults[i]);
     }
   } else if (favoritesData.display === 'home') {
     $searchBar.className = 'search';
