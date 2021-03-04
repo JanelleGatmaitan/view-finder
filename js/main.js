@@ -8,7 +8,7 @@ var $currentTime = document.querySelector('.current-time');
 var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
 var $parent = document.querySelector('.results');
-var $heading = document.querySelector('h4.text-large');
+var $heading = document.querySelector('h4');
 
 if (searchData !== null) {
   $city.textContent = searchData.userInput.unsplit;
@@ -87,6 +87,7 @@ $back.addEventListener('click', function (event) {
   favoritesData.display = 'home';
   $searchBar.className = 'search';
   $astronomyData.className = 'hidden';
+  $heading.className = 'hidden';
   $parent.className = 'hidden';
 });
 
@@ -128,7 +129,7 @@ function renderResult(result) {
   venueDiv.setAttribute('class', 'venue-card');
   venueDiv.setAttribute('venue-id', result.id);
   var like = document.createElement('i');
-  like.setAttribute('result-id', result.id);
+  like.setAttribute('venue-id', result.id);
   if (favoritesData.display === 'favorites') {
     like.setAttribute('class', 'fas fa-heart like');
   } else {
@@ -167,7 +168,6 @@ window.addEventListener('DOMContentLoaded', function (event) {
       checkFavorites(favoritesData.favorites[i]);
     }
   } else if (favoritesData.display === 'home') {
-    $heading.className = 'hidden';
     $searchBar.className = 'search';
     $astronomyData.className = 'hidden';
     $parent.className = 'hidden';
@@ -180,13 +180,26 @@ window.addEventListener('DOMContentLoaded', function (event) {
       var renderedResult = renderResult(searchData.placesSearchResults[i]);
       $parent.prepend(renderedResult);
     }
+  } else if (favoritesData.display === 'favorites') {
+    $heading.className = 'text-large';
+    $heading.textContent = 'Favorites';
+    $parent.innerText = ' ';
+    favoritesData.display = 'favorites';
+    $astronomyData.className = 'hidden';
+    $searchBar.className = 'hidden';
+    console.log('favoritesData.favorites:', favoritesData.favorites);
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      var favorite = renderResult(favoritesData.favorites[i]);
+      $parent.prepend(favorite);
+    }
+    $parent.className = 'results';
   }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
       event.target.className = 'fas fa-heart like';
       console.log('event.target: ', event.target);
       for (var i = 0; i < 5; i++) {
-        if (event.target.getAttribute('result-id') === searchData.placesSearchResults[i].id) {
+        if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
           favoritesData.favorites.push(searchData.placesSearchResults[i]);
           console.log('favorited!', favoritesData);
         }
@@ -194,7 +207,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
     } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like') {
       event.target.className = 'far fa-heart like';
       for (var i = 0; i < 5; i++) {
-        if (event.target.getAttribute('result-id') === searchData.placesSearchResults[i].id) {
+        if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
           favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
           console.log('unfavorited!', favoritesData);
         }
@@ -207,7 +220,7 @@ function checkFavorites(favorite) {
   var $likeButtons = document.querySelectorAll('.fa-heart.like');
   if (favoritesData.favorites.length !== 0) {
     for (var i = 0; i < 5; i++) {
-      if ($likeButtons[i].getAttribute('result-id') === favorite.id) {
+      if ($likeButtons[i].getAttribute('venue-id') === favorite.id) {
         $likeButtons[i].className = 'fas fa-heart like';
       }
     }
@@ -216,6 +229,7 @@ function checkFavorites(favorite) {
 
 var $navHeart = document.querySelector('.nav-icon.heart');
 $navHeart.addEventListener('click', function (event) {
+  $heading.className = 'text-large';
   $heading.textContent = 'Favorites';
   $parent.innerText = ' ';
   favoritesData.display = 'favorites';
@@ -232,3 +246,5 @@ $navHeart.addEventListener('click', function (event) {
 // function viewSwap() {
 
 // }
+
+// if (favoritesData.display === 'favorites')
