@@ -64,9 +64,6 @@ $searchButton.addEventListener('click', function (event) {
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
   favoritesData.newSearch = true;
-  // for (var i = 0; i < favoritesData.favorites.length; i++) {
-  //   checkFavorites(favoritesData.favorites[i]);
-  // }
 });
 
 $back.addEventListener('click', function (event) {
@@ -116,6 +113,9 @@ function getPlacesPhotoData(result) {
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
     renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      checkFavorites(favoritesData.favorites[i]);
+    }
   });
   xhr.send();
 }
@@ -154,23 +154,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
   viewSwap();
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
-      // event.target.className = 'fas fa-heart like';
-      // console.log('event.target: ', event.target);
-      // for (var i = 0; i < 5; i++) {
-      //   if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-      //     favoritesData.favorites.push(searchData.placesSearchResults[i]);
-      //     console.log('favorited!', favoritesData);
-      //   }
-      // }
       favorite();
     } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like') {
-      // event.target.className = 'far fa-heart like';
-      // for (var i = 0; i < 5; i++) {
-      //   if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
-      //     favoritesData.favorites.splice(searchData.placesSearchResults[i], 1);
-      //     console.log('unfavorited!', favoritesData);
-      //   }
-      // }
       unfavorite();
     }
   });
