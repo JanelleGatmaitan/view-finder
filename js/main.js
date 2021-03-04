@@ -182,6 +182,7 @@ function initialCheckFavorites(searchResult) {
 }
 
 var $navHeart = document.querySelector('.nav-icon.heart');
+var displayedFavorites = initialFavoritesDisplay();
 $navHeart.addEventListener('click', function (event) {
   $heading.className = 'text-large';
   $heading.textContent = 'Favorites';
@@ -240,14 +241,16 @@ function favorite() {
     for (var i = 0; i < 5; i++) {
       if (event.target.getAttribute('venue-id') === searchData.placesSearchResults[i].id) {
         favoritesData.favorites.push(searchData.placesSearchResults[i]);
+        console.log('favorited!', favoritesData.favorites);
         break;
       }
     }
   } else {
     event.target.className = 'fas fa-heart like';
-    for (var i = 0; i < favoritesData.favorites.length; i++) {
-      if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
-        favoritesData.favorites.push(favoritesData.favorites[i].id);
+    for (var i = 0; i < displayedFavorites.length; i++) {
+      if (event.target.getAttribute('venue-id') === displayedFavorites[i].id) {
+        favoritesData.favorites.push(displayedFavorites[i]);
+        console.log('favorited!', favoritesData.favorites);
         break;
       }
     }
@@ -260,8 +263,12 @@ function unfavorite() {
     if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
       var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[i]);
       favoritesData.favorites.splice(unfavorited, 1);
-      console.log('favorites', favoritesData.favorites);
+      console.log('unfavorited!', favoritesData.favorites);
       break;
     }
   }
+}
+
+function initialFavoritesDisplay() {
+  return favoritesData.favorites;
 }

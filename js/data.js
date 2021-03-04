@@ -24,7 +24,7 @@ if (previousFavoritesDataJSON != null) {
 
 window.addEventListener('beforeunload', function (event) {
   var searchDataJSON = JSON.stringify(searchData);
-  localStorage.setItem('search-results', searchDataJSON);
+  localStorage.removeItem('search-results', searchDataJSON);
   var favoritesDataJSON = JSON.stringify(favoritesData);
-  localStorage.setItem('favorites', favoritesDataJSON);
+  localStorage.removeItem('favorites', favoritesDataJSON);
 });
