@@ -113,21 +113,8 @@ function getPlacesPhotoData(result) {
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
     var renderedResult = renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
-    // for (var i = 0; i < favoritesData.favorites.length; i++) {
-    // if (favoritesData.favorites.length !== 0) {
-    // console.log(renderedResult);
-    // if (favoritesData.favorites.length !== 0) {
-    //   // var $likeButtons = document.querySelectorAll('.fa-heart.like');
-    //   for (var i = 0; i < 5; i++) {
-    //     initialCheckFavorites(searchData.placesSearchResults[i]);
-    //     // if (initialCheckFavorites(searchData.placesSearchResults[i])); {
-    //     //   $likeButtons[i].className = 'fas fa-heart like';
-    //     // }
-    //   }
-    // }
-
-    // }
-    // }
+    console.log('renderedResult', renderedResult);
+    initialCheckFavorites(renderedResult);
   });
   xhr.send();
 }
@@ -164,12 +151,6 @@ function renderResult(result) {
 
 window.addEventListener('DOMContentLoaded', function (event) {
   viewSwap();
-  if (favoritesData.favorites.length !== 0) {
-    // var $likeButtons = document.querySelectorAll('.fa-heart.like');
-    for (var i = 0; i < 5; i++) {
-      initialCheckFavorites(searchData.placesSearchResults[i]);
-    }
-  }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like') {
       favorite();
@@ -192,10 +173,10 @@ function checkFavorites(favorite) {
 }
 
 function initialCheckFavorites(searchResult) {
-  var $likeButtons = document.querySelectorAll('.fa-heart.like');
+  var $likeButton = searchResult.querySelector('.fa-heart.like');
   for (var i = 0; i < favoritesData.favorites.length; i++) {
-    if (favoritesData.favorites[i].id === searchResult.id) {
-      $likeButtons[searchData.placesSearchResults.indexOf(searchResult)].className = 'fas fa-heart like';
+    if (favoritesData.favorites[i].id === searchResult.getAttribute('venue-id')) {
+      $likeButton.className = 'fas fa-heart like';
       break;
     }
   }
