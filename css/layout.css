@@ -57,7 +57,12 @@ img {
 
 .modal {
   width: 22rem;
+  height: 12.5rem;
   padding: 20px;
+   position: fixed;
+   left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .modal-button {
