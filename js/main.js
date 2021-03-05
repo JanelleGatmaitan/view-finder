@@ -153,10 +153,10 @@ function renderResult(result) {
 
 window.addEventListener('DOMContentLoaded', function (event) {
   viewSwap();
-  if (favoritesData.display === 'favorites') {
-    var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
-    console.log('initialFav', initialFavorites);
-  }
+  // if (favoritesData.display === 'favorites') {
+  //   var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
+  //   console.log('initialFav', initialFavorites);
+  // }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like' && favoritesData.display === 'search') {
       favorite(event, searchData.placesSearchResults);
@@ -166,8 +166,13 @@ window.addEventListener('DOMContentLoaded', function (event) {
       unfavorite(event);
     } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like' && favoritesData.display === 'favorites') {
       $modal.className = 'modal';
+      var heart = event.target;
+      console.log('heart: ', heart);
       $yes.addEventListener('click', function (event) {
-        unfavorite(event);
+        var confirm = true;
+        console.log('heart: ', heart);
+        // event target is yes button here
+        unfavorite(heart);
       });
       $no.addEventListener('click', function (event) {
         $modal.className = 'hidden';
@@ -238,8 +243,8 @@ function viewSwap() {
       $parent.prepend(renderedResult);
     }
   } else if (favoritesData.display === 'favorites') {
-    var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
-    console.log('initialFav', initialFavorites);
+    // var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
+    // console.log('initialFav', initialFavorites);
     $heading.className = 'text-large';
     $heading.textContent = 'Favorites';
     $parent.innerText = ' ';
@@ -256,7 +261,7 @@ function viewSwap() {
 
 function favorite(event, list) {
   event.target.className = 'fas fa-heart like';
-  console.log('copy of favorites list: ', list);
+  // console.log('copy of favorites list: ', list);
   for (var i = 0; i < list.length; i++) {
     if (event.target.getAttribute('venue-id') === list[i].id) {
       favoritesData.favorites.push(list[i]);
@@ -267,13 +272,24 @@ function favorite(event, list) {
 }
 
 function unfavorite(event) {
-  event.target.className = 'far fa-heart like';
-  for (var i = 0; i < favoritesData.favorites.length; i++) {
-    if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
-      var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[i]);
-      favoritesData.favorites.splice(unfavorited, 1);
-      console.log('unfavorited!', favoritesData.favorites);
-      break;
+  if (favoritesData.display === 'favorites') {
+    var favoritesRendered = document.querySelectorAll('div.venue-card');
+    event.className = 'far fa-heart like';
+    for (var i = 0; i < favoritesRendered.length; i++) {
+      if (event.getAttribute('venue-id') === favoritesRendered[i].getAttribute('venue-id')) {
+        favoritesRendered[i].className = 'hidden';
+        break;
+      }
+    }
+  } else {
+    event.target.className = 'far fa-heart like';
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
+        var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[i]);
+        favoritesData.favorites.splice(unfavorited, 1);
+        console.log('unfavorited!', favoritesData.favorites);
+        break;
+      }
     }
   }
 }
