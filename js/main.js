@@ -9,6 +9,9 @@ var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
 var $parent = document.querySelector('.results');
 var $heading = document.querySelector('h4');
+var $modal = document.querySelector('.modal');
+var $yes = document.querySelector('.modal-button.yes');
+var $no = document.querySelector('.modal-button.no');
 
 function getAstronomyData() {
   var xhr = new XMLHttpRequest();
@@ -159,8 +162,16 @@ window.addEventListener('DOMContentLoaded', function (event) {
       favorite(event, searchData.placesSearchResults);
     } else if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like' && favoritesData.display === 'favorites') {
       favorite(event, initialFavorites);
-    } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like') {
+    } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like' && favoritesData.display === 'search') {
       unfavorite(event);
+    } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like' && favoritesData.display === 'favorites') {
+      $modal.className = 'modal';
+      $yes.addEventListener('click', function (event) {
+        unfavorite(event);
+      });
+      $no.addEventListener('click', function (event) {
+        $modal.className = 'hidden';
+      });
     }
   });
 });
