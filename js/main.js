@@ -190,8 +190,6 @@ function initialCheckFavorites(searchResult) {
 var $navHeart = document.querySelector('.nav-icon.heart');
 
 $navHeart.addEventListener('click', function (event) {
-  // var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
-  // console.log('inititialFavorites: ', initialFavorites);
   $heading.className = 'text-large';
   $heading.textContent = 'Favorites';
   $parent.innerText = ' ';
@@ -265,5 +263,3 @@ function unfavorite(event) {
     }
   }
 }
-
-// var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
