@@ -227,6 +227,8 @@ function viewSwap() {
       $parent.prepend(renderedResult);
     }
   } else if (favoritesData.display === 'favorites') {
+    var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
+    console.log('initialFav', initialFavorites);
     $heading.className = 'text-large';
     $heading.textContent = 'Favorites';
     $parent.innerText = ' ';
@@ -243,6 +245,7 @@ function viewSwap() {
 
 function favorite(event, list) {
   event.target.className = 'fas fa-heart like';
+  console.log('copy of favorites list: ', list);
   for (var i = 0; i < list.length; i++) {
     if (event.target.getAttribute('venue-id') === list[i].id) {
       favoritesData.favorites.push(list[i]);

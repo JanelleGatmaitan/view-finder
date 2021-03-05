@@ -35,7 +35,8 @@ img {
 }
 
 .astronomy-data,
-.venue-card {
+.venue-card,
+.modal {
   margin: 0 auto;
   text-align: center;
   width: 20rem;
@@ -52,6 +53,17 @@ img {
 
 .hidden {
   display: none;
+}
+
+.modal {
+  width: 22rem;
+  padding: 20px;
+}
+
+.modal-button {
+  padding: 5px;
+  width: 75px;
+  margin: 10px;
 }
 
 @media screen and (min-width: 600px) {

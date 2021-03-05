@@ -69,3 +69,8 @@ input {
 i {
   font-size: 1.5rem;
 }
+
+.modal {
+  background-color: white;
+  color: black;
+}
