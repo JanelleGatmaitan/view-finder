@@ -9,8 +9,7 @@ var searchData = {
 var favoritesData = {
   newSearch: true,
   display: 'home',
-  favorites: [],
-  toBeDeleted: []
+  favorites: []
 };
 
 var previousSearchDataJSON = localStorage.getItem('search-results');

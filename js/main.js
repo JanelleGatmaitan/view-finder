@@ -255,7 +255,6 @@ function favorite(event, list) {
   for (var i = 0; i < list.length; i++) {
     if (event.target.getAttribute('venue-id') === list[i].id) {
       favoritesData.favorites.push(list[i]);
-      console.log('favorited!', favoritesData.favorites);
       break;
     }
   }
@@ -283,7 +282,6 @@ function unfavorite(event) {
       if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
         var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[i]);
         favoritesData.favorites.splice(unfavorited, 1);
-        console.log('unfavorited!', favoritesData.favorites);
         break;
       }
     }
