@@ -153,10 +153,6 @@ function renderResult(result) {
 
 window.addEventListener('DOMContentLoaded', function (event) {
   viewSwap();
-  // if (favoritesData.display === 'favorites') {
-  //   var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
-  //   console.log('initialFav', initialFavorites);
-  // }
   $parent.addEventListener('click', function (event) {
     if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like' && favoritesData.display === 'search') {
       favorite(event, searchData.placesSearchResults);
@@ -166,10 +162,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
       unfavorite(event);
     } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like' && favoritesData.display === 'favorites') {
       $modal.className = 'modal';
-      var heart = event.target;
-      console.log('heart: ', heart);
+      var clickedHeart = event.target;
       $yes.addEventListener('click', function (event) {
-        unfavorite(heart);
+        unfavorite(clickedHeart);
         $modal.className = 'hidden';
       });
       $no.addEventListener('click', function (event) {
@@ -241,8 +236,6 @@ function viewSwap() {
       $parent.prepend(renderedResult);
     }
   } else if (favoritesData.display === 'favorites') {
-    // var initialFavorites = JSON.parse(JSON.stringify(favoritesData.favorites));
-    // console.log('initialFav', initialFavorites);
     $heading.className = 'text-large';
     $heading.textContent = 'Favorites';
     $parent.innerText = ' ';
@@ -259,7 +252,6 @@ function viewSwap() {
 
 function favorite(event, list) {
   event.target.className = 'fas fa-heart like';
-  // console.log('copy of favorites list: ', list);
   for (var i = 0; i < list.length; i++) {
     if (event.target.getAttribute('venue-id') === list[i].id) {
       favoritesData.favorites.push(list[i]);
