@@ -169,10 +169,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
       var heart = event.target;
       console.log('heart: ', heart);
       $yes.addEventListener('click', function (event) {
-        var confirm = true;
-        console.log('heart: ', heart);
-        // event target is yes button here
         unfavorite(heart);
+        $modal.className = 'hidden';
       });
       $no.addEventListener('click', function (event) {
         $modal.className = 'hidden';
@@ -278,6 +276,7 @@ function unfavorite(event) {
     for (var i = 0; i < favoritesRendered.length; i++) {
       if (event.getAttribute('venue-id') === favoritesRendered[i].getAttribute('venue-id')) {
         favoritesRendered[i].className = 'hidden';
+        console.log('unfavorited!', favoritesData.favorites);
         break;
       }
     }
