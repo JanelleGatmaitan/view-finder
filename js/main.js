@@ -268,9 +268,9 @@ function unfavorite(event) {
       if (event.getAttribute('venue-id') === favoritesRendered[i].getAttribute('venue-id')) {
         favoritesRendered[i].className = 'hidden';
         var toBeDeleted = favoritesRendered[i].getAttribute('venue-id');
-        for (var i = 0; favoritesData.favorites.length; i++) {
-          if (toBeDeleted === favoritesData.favorites[i].id) {
-            var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[i]);
+        for (var k = 0; k < favoritesData.favorites.length; k++) {
+          if (toBeDeleted === favoritesData.favorites[k].id) {
+            var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[k]);
             favoritesData.favorites.splice(unfavorited, 1);
             break;
           }
