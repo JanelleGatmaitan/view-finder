@@ -272,12 +272,17 @@ function favorite(event, list) {
 function unfavorite(event) {
   if (favoritesData.display === 'favorites') {
     var favoritesRendered = document.querySelectorAll('div.venue-card');
-    event.className = 'far fa-heart like';
     for (var i = 0; i < favoritesRendered.length; i++) {
       if (event.getAttribute('venue-id') === favoritesRendered[i].getAttribute('venue-id')) {
         favoritesRendered[i].className = 'hidden';
-        console.log('unfavorited!', favoritesData.favorites);
-        break;
+        var toBeDeleted = favoritesRendered[i].getAttribute('venue-id');
+        for (var i = 0; favoritesData.favorites.length; i++) {
+          if (toBeDeleted === favoritesData.favorites[i].id) {
+            var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[i]);
+            favoritesData.favorites.splice(unfavorited, 1);
+            break;
+          }
+        }
       }
     }
   } else {
