@@ -2,21 +2,16 @@ var $searchButton = document.querySelector('.search-button');
 var $input = document.querySelector('input');
 var $searchBar = document.querySelector('.search');
 var $astronomyData = document.querySelector('.astronomy-data');
-var $recs = document.querySelector('.results');
 var $back = document.querySelector('.back');
 var $city = document.querySelector('.city');
 var $currentTime = document.querySelector('.current-time');
 var $rise = document.querySelector('.rise');
 var $set = document.querySelector('.set');
 var $parent = document.querySelector('.results');
-var $venueCards = document.querySelectorAll('.venue-card');
-
-if (searchData != null) {
-  $city.textContent = searchData.userInput.unsplit;
-  $currentTime.textContent = searchData.astroData.currentTime;
-  $rise.textContent = searchData.astroData.sunriseTime;
-  $set.textContent = searchData.astroData.sunsetTime;
-}
+var $heading = document.querySelector('h4');
+var $modal = document.querySelector('.modal');
+var $yes = document.querySelector('.modal-button.yes');
+var $no = document.querySelector('.modal-button.no');
 
 function getAstronomyData() {
   var xhr = new XMLHttpRequest();
@@ -57,19 +52,21 @@ function getAstronomyLocationParam() {
 }
 
 $searchButton.addEventListener('click', function (event) {
-  if ($venueCards.length !== 0) {
+  $heading.textContent = 'View Points';
+  if (favoritesData.newSearch) {
     $parent.innerText = ' ';
   }
-  favoritesData.display = 'search';
   searchData.userInput.unsplit = $input.value;
   splitUserInput(searchData.userInput);
+  favoritesData.display = 'search';
   $searchBar.className = 'hidden';
   $astronomyData.className = 'astronomy-data';
-  $recs.className = 'results';
+  $parent.className = 'results';
   getAstronomyLocationParam();
   getAstronomyData();
   getPlacesData();
   $city.textContent = searchData.userInput.unsplit;
+  favoritesData.newSearch = true;
 });
 
 $back.addEventListener('click', function (event) {
@@ -86,7 +83,8 @@ $back.addEventListener('click', function (event) {
   favoritesData.display = 'home';
   $searchBar.className = 'search';
   $astronomyData.className = 'hidden';
-  $recs.className = 'hidden';
+  $heading.className = 'hidden';
+  $parent.className = 'hidden';
 });
 
 function getPlacesData() {
@@ -102,10 +100,8 @@ function getPlacesData() {
       searchData.placesSearchResults.push(place);
       getPlacesPhotoData(searchData.placesSearchResults[i]);
     }
-    $venueCards = document.querySelectorAll('.venue-card');
   });
   xhr.send();
-
 }
 
 function getPlacesPhotoData(result) {
@@ -119,8 +115,8 @@ function getPlacesPhotoData(result) {
     var suffix = xhr.response.response.photos.items[0].suffix;
     var photoURL = prefix + '500x500' + suffix;
     searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)].photoUrl = photoURL;
-    renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
-    $venueCards = document.querySelectorAll('.venue-card');
+    var renderedResult = renderResult(searchData.placesSearchResults[searchData.placesSearchResults.indexOf(result)]);
+    initialCheckFavorites(renderedResult);
   });
   xhr.send();
 }
@@ -128,8 +124,14 @@ function getPlacesPhotoData(result) {
 function renderResult(result) {
   var venueDiv = document.createElement('div');
   venueDiv.setAttribute('class', 'venue-card');
+  venueDiv.setAttribute('venue-id', result.id);
   var like = document.createElement('i');
-  like.setAttribute('class', 'far fa-heart like heart');
+  like.setAttribute('venue-id', result.id);
+  if (favoritesData.display === 'favorites') {
+    like.setAttribute('class', 'fas fa-heart like');
+  } else {
+    like.setAttribute('class', 'far fa-heart like');
+  }
   venueDiv.appendChild(like);
   var infoName = document.createElement('p');
   infoName.setAttribute('class', 'venue-info');
@@ -145,16 +147,143 @@ function renderResult(result) {
   photo.setAttribute('class', 'row');
   photo.setAttribute('src', result.photoUrl);
   venueDiv.appendChild(photo);
-  $recs.appendChild(venueDiv);
+  $parent.appendChild(venueDiv);
+  return venueDiv;
 }
 
 window.addEventListener('DOMContentLoaded', function (event) {
-  if (favoritesData.display === 'search') {
-    $searchBar.className = 'hidden';
-    $astronomyData.className = 'astronomy-data';
-    $recs.className = 'results';
+  viewSwap();
+  $parent.addEventListener('click', function (event) {
+    if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like' && favoritesData.display === 'search') {
+      favorite(event, searchData.placesSearchResults);
+    } else if (event.target && event.target.matches('i.like') && event.target.className === 'far fa-heart like' && favoritesData.display === 'favorites') {
+      favorite(event, initialFavorites);
+    } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like' && favoritesData.display === 'search') {
+      unfavorite(event);
+    } else if (event.target && event.target.matches('i.like') && event.target.className === 'fas fa-heart like' && favoritesData.display === 'favorites') {
+      $modal.className = 'modal';
+      var clickedHeart = event.target;
+      $yes.addEventListener('click', function (event) {
+        unfavorite(clickedHeart);
+        $modal.className = 'hidden';
+      });
+      $no.addEventListener('click', function (event) {
+        $modal.className = 'hidden';
+      });
+    }
+  });
+});
+
+function checkFavorites(favorite) {
+  var $likeButtons = document.querySelectorAll('.fa-heart.like');
+  if (favoritesData.favorites.length !== 0 && favoritesData.display === 'search') {
     for (var i = 0; i < 5; i++) {
-      renderResult(searchData.placesSearchResults[i]);
+      if ($likeButtons[i].getAttribute('venue-id') === favorite.id) {
+        $likeButtons[i].className = 'fas fa-heart like';
+        break;
+      }
     }
   }
+}
+
+function initialCheckFavorites(searchResult) {
+  var $likeButton = searchResult.querySelector('.fa-heart.like');
+  for (var i = 0; i < favoritesData.favorites.length; i++) {
+    if (favoritesData.favorites[i].id === searchResult.getAttribute('venue-id')) {
+      $likeButton.className = 'fas fa-heart like';
+      break;
+    }
+  }
+}
+
+var $navHeart = document.querySelector('.nav-icon.heart');
+
+$navHeart.addEventListener('click', function (event) {
+  $heading.className = 'text-large';
+  $heading.textContent = 'Favorites';
+  $parent.innerText = ' ';
+  favoritesData.display = 'favorites';
+  viewSwap();
 });
+
+function viewSwap() {
+  if (favoritesData.display === 'search' && favoritesData.favorites.length !== 0) {
+    $city.textContent = searchData.userInput.unsplit;
+    $currentTime.textContent = searchData.astroData.currentTime;
+    $rise.textContent = searchData.astroData.sunriseTime;
+    $set.textContent = searchData.astroData.sunsetTime;
+    $heading.textContent = 'View Points';
+    $searchBar.className = 'hidden';
+    $astronomyData.className = 'astronomy-data';
+    $parent.className = 'results';
+    for (var i = 0; i < 5; i++) {
+      var renderedResult = renderResult(searchData.placesSearchResults[i]);
+      $parent.prepend(renderedResult);
+    }
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      checkFavorites(favoritesData.favorites[i]);
+    }
+  } else if (favoritesData.display === 'home') {
+    $searchBar.className = 'search';
+    $astronomyData.className = 'hidden';
+    $parent.className = 'hidden';
+  } else if (favoritesData.display === 'search') {
+    $searchBar.className = 'hidden';
+    $astronomyData.className = 'astronomy-data';
+    $parent.className = 'results';
+    for (var i = 0; i < 5; i++) {
+      var renderedResult = renderResult(searchData.placesSearchResults[i]);
+      $parent.prepend(renderedResult);
+    }
+  } else if (favoritesData.display === 'favorites') {
+    $heading.className = 'text-large';
+    $heading.textContent = 'Favorites';
+    $parent.innerText = ' ';
+    favoritesData.display = 'favorites';
+    $astronomyData.className = 'hidden';
+    $searchBar.className = 'hidden';
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      var favorite = renderResult(favoritesData.favorites[i]);
+      $parent.prepend(favorite);
+    }
+    $parent.className = 'results';
+  }
+}
+
+function favorite(event, list) {
+  event.target.className = 'fas fa-heart like';
+  for (var i = 0; i < list.length; i++) {
+    if (event.target.getAttribute('venue-id') === list[i].id) {
+      favoritesData.favorites.push(list[i]);
+      break;
+    }
+  }
+}
+
+function unfavorite(event) {
+  if (favoritesData.display === 'favorites') {
+    var favoritesRendered = document.querySelectorAll('div.venue-card');
+    for (var i = 0; i < favoritesRendered.length; i++) {
+      if (event.getAttribute('venue-id') === favoritesRendered[i].getAttribute('venue-id')) {
+        favoritesRendered[i].className = 'hidden';
+        var toBeDeleted = favoritesRendered[i].getAttribute('venue-id');
+        for (var k = 0; k < favoritesData.favorites.length; k++) {
+          if (toBeDeleted === favoritesData.favorites[k].id) {
+            var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[k]);
+            favoritesData.favorites.splice(unfavorited, 1);
+            break;
+          }
+        }
+      }
+    }
+  } else {
+    event.target.className = 'far fa-heart like';
+    for (var i = 0; i < favoritesData.favorites.length; i++) {
+      if (event.target.getAttribute('venue-id') === favoritesData.favorites[i].id) {
+        var unfavorited = favoritesData.favorites.indexOf(favoritesData.favorites[i]);
+        favoritesData.favorites.splice(unfavorited, 1);
+        break;
+      }
+    }
+  }
+}

@@ -35,7 +35,8 @@ img {
 }
 
 .astronomy-data,
-.venue-card {
+.venue-card,
+.modal {
   margin: 0 auto;
   text-align: center;
   width: 20rem;
@@ -54,12 +55,29 @@ img {
   display: none;
 }
 
+.modal {
+  width: 22rem;
+  height: 12.5rem;
+  padding: 20px;
+   position: fixed;
+   left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-button {
+  padding: 5px;
+  width: 75px;
+  margin: 10px;
+}
+
 @media screen and (min-width: 600px) {
   img {
   width:  380px;
   height: 380px;
   background-size: cover;
   margin: 0 auto;
+  margin-bottom: 50px;;
 }
 
 .astronomy-data,
@@ -71,7 +89,7 @@ img {
 }
 
 .venue-card {
-  margin-bottom: 30px
+  margin-bottom: 50px
 }
 
 .text-large {

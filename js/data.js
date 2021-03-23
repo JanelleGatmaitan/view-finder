@@ -7,7 +7,8 @@ var searchData = {
 ;
 
 var favoritesData = {
-  display: null,
+  newSearch: true,
+  display: 'home',
   favorites: []
 };
 
